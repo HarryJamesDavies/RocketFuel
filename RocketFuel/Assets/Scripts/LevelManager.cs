@@ -1,10 +1,32 @@
-﻿//using UnityEngine;
-//using System;
-//using System.Collections.Generic;
-//using Random = UnityEngine.Random;
+﻿using UnityEngine;
+using System;
+using System.Collections.Generic;
+using Random = UnityEngine.Random;
 
-//public class LevelManager : MonoBehaviour
-//{
+public class LevelManager : MonoBehaviour
+{
+    public int m_chunks = 10;
+    public int m_cellWidth = 20;
+    public int m_cellHeight = 100;
+    public Vector3 m_origin;
+
+    private Level m_level;
+
+    void Start()
+    {
+        InitialiseLevel();
+    }
+
+    public bool InitialiseLevel()
+    {
+        m_level = GetComponent<Level>();
+        m_level.InitaliseLevel(m_chunks, m_cellWidth, m_cellHeight, m_origin);
+        return true;
+    }
+}
+
+
+
 //    [Serializable]
 //    public class Count
 //    {
@@ -124,7 +146,7 @@
 //            {
 //                randomPosition = RandomPosition();
 //            } while (randomPosition.y < minimumBlockHeight);
-        
+
 //            CreateClump(tile, randomPosition, objectHeight, objectWidth);
 //        }
 //    }
