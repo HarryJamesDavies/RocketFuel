@@ -19,7 +19,7 @@ public class DaughterActions : MonoBehaviour {
     private Vector3 moveDirection = Vector3.zero;
     private GameObject targetLock;
     private GameObject closest;
-
+    private GameObject[] targets;
 
     private void Awake()
     {
@@ -29,7 +29,7 @@ public class DaughterActions : MonoBehaviour {
     void Start() {
         rb = GetComponent<Rigidbody2D>();
         jump = new Vector3(0.0f, 1.0f, 0.0f);
-        
+        targets = GameObject.FindGameObjectsWithTag("Dirt");
     }
 
     // Update is called once per frame
@@ -39,7 +39,7 @@ public class DaughterActions : MonoBehaviour {
         UsePowers();
     }
 
-   
+
 
     private void PlayerMovement() {
         if (player.GetAxis("Move Horizontal") != 0.0f)
@@ -63,53 +63,39 @@ public class DaughterActions : MonoBehaviour {
                 Debug.Log("Jump!");
             }
         }
-        moveDirection.y -= gravity * Time.deltaTime;     
+        moveDirection.y -= gravity * Time.deltaTime;
     }
-        
+
     private void UsePowers()
     {
-    if (player.GetButtonDown("Powers"))
+        if (player.GetButtonDown("Powers"))
         {
-        Debug.Log("Powers!");
+            Debug.Log("Powers!");
         }
     }
     private void TargetSelect()
     {
-        if (player.GetButtonDown("Target Lock Scroll Right"))
+        if (player.GetButtonDown("Target Lock Scroll Right") || (player.GetButtonDown("Target Lock Scroll Left"))
         {
-            Debug.Log("Target Lock Right");
+            Debug.Log("Target Locking");
             if (targetLock == null)
             {
                 targetLock = TargetSelectClosest();
             }
             else if (targetLock != null)
             {
-                Debug.Log("Select next target in array"); //TODO
-            }
-        }
-
-        if (player.GetButtonDown("Target Lock Scroll Left"))
-        {
-            Debug.Log("Target Lock Left");
-            if (targetLock == null)
-            {
-                targetLock = TargetSelectClosest();
-            }
-            else if (targetLock != null)
-            {
-                Debug.Log("Select previous target in array"); //TODO
+                targetLock = TargetSelectNextOrPrev();
+                Debug.Log("Select next or previous target in array"); //TODO
             }
         }
     }
 
     private GameObject TargetSelectClosest()
     {
-        GameObject[] targets;
-        targets = GameObject.FindGameObjectsWithTag("Dirt");
-
         GameObject closest = null;
         float distance = Mathf.Infinity;
         Vector3 position = transform.position;
+
         foreach (GameObject target in targets)
         {
             Vector3 diff = target.transform.position - position;
@@ -123,7 +109,22 @@ public class DaughterActions : MonoBehaviour {
         Debug.Log(closest.name.ToString());
         return closest;
     }
-       
+
+    private GameObject TargetSelectNextOrPrev()
+    {
+
+        int index = closest;
+        int prev = list[index - 1];
+        int next = list[index + 1];
+
+        return next;
+
+    }
+
+    return prev;
+    }
+
+
 
     void OnCollisionEnter2D(Collision2D coll)
     {
