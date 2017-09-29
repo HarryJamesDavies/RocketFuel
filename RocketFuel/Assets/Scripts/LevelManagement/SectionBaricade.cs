@@ -7,10 +7,13 @@ public class SectionBaricade : MonoBehaviour
     public int m_sectionIndex = 0;
     public float m_delayOffset = 2.0f;
 
+    private PullableBlock m_pb = null;
+
 	void Start ()
     {
         GlobalEventBoard.Instance.SubscribeToEvent(Events.Event.LEV_TransitionSection, Ev_TriggerBaricade);
 
+        m_pb = GetComponent<PullableBlock>();
         m_sectionIndex = LevelManager.Instance.GetGenerateSectionCount();
 	}
 
@@ -21,7 +24,7 @@ public class SectionBaricade : MonoBehaviour
 
     public void Ev_TriggerBaricade(object _data = null)
     {
-        if (_data != null)
+        if (_data != null && m_pb)
         {
             SectionTransitionData data = _data as SectionTransitionData;
             if (data.SectionIndex == LevelManager.Instance.GetCurrentSectionIndex())
@@ -39,6 +42,6 @@ public class SectionBaricade : MonoBehaviour
 
     private void MoveBaricade()
     {
-        GetComponent<PullableBlock>().SpawnClone();
+        m_pb.SpawnClone();
     }
 }
