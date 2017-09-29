@@ -16,6 +16,12 @@ public class Level : MonoBehaviour
             Holder.SetParent(_parent);
         }
 
+        /// <summary>
+        /// Instantiates cells based on Grid data
+        /// </summary>
+        /// <param name="_cellWidth"></param>
+        /// <param name="_cellHeight"></param>
+        /// <param name="_origin"></param>
         public void SpawnSection(float _cellWidth, float _cellHeight, Vector3 _origin)
         {
             for (int y = 0; y <= Height; y++)
@@ -30,8 +36,14 @@ public class Level : MonoBehaviour
             }
         }
 
+        /// <summary>
+        /// Deletes GameObjects contained in Grid
+        /// </summary>
         public void ClearGrid()
         {
+            Width = 0;
+            Height = 0;
+
             for (int y = 0; y <= Height; y++)
             {
                 for (int x = 0; x <= Width; x++)
@@ -39,6 +51,8 @@ public class Level : MonoBehaviour
                     Destroy(Grid[x, y]);
                 }
             }
+
+            Destroy(Holder.gameObject);
         }
 
         public GameObject[,] Grid;
@@ -77,42 +91,80 @@ public class Level : MonoBehaviour
     public GameObject m_defaultTemplate;
     public List<Cell> m_cellTemplates;
 
-    public int m_currentSection = 0;
-    private bool m_currentBuffer = false;
+    private bool m_currentBuffer = true;
     private Section m_sectionA;
     private Section m_sectionB;
-    private int m_sectionsGenerated = -1;
+    public int m_sectionsGenerated = -1;
 
+    private int m_chunks;
     private float m_cellWidth;
     private float m_cellHeight;
     private Vector3 m_nextOrigin;
 
+    public void TransitionSection()
+    {
+        if(m_currentBuffer)
+        {
+            m_sectionA.ClearGrid();
+
+            m_sectionA = GenerateSection(SelectChunks(m_chunks));
+            m_sectionA.SpawnSection(m_cellWidth, m_cellHeight, m_nextOrigin);
+            m_nextOrigin.y = m_nextOrigin.y + ((m_sectionA.Height + 1) * m_cellHeight);
+
+            m_currentBuffer = false;
+        }
+        else
+        {
+            m_sectionB.ClearGrid();
+
+            m_sectionB = GenerateSection(SelectChunks(m_chunks));
+            m_sectionB.SpawnSection(m_cellWidth, m_cellHeight, m_nextOrigin);
+            m_nextOrigin.y = m_nextOrigin.y + ((m_sectionB.Height + 1) * m_cellHeight);
+
+            m_currentBuffer = true;
+        }
+    }
+
+    /// <summary>
+    /// Generates Spawn section and 1st section, sets general level parameters
+    /// </summary>
+    /// <param name="_chunks"></param>
+    /// <param name="_cellWidth"></param>
+    /// <param name="_cellHeight"></param>
+    /// <param name="_origin"></param>
     public void InitaliseLevel(int _chunks, float _cellWidth, float _cellHeight, Vector3 _origin)
     {
+        //General level parameters
+        m_chunks = _chunks;
         m_cellWidth = _cellWidth;
         m_cellHeight = _cellHeight;
         m_nextOrigin = _origin;
 
-        List<Texture2D> startTextures = new List<Texture2D>();
-        startTextures.Add(m_spawn.Texture);
-        startTextures.Add(m_separator.Texture);
-        m_sectionA = GenerateSection(startTextures);
+        //Spawn section
+        m_sectionA = GenerateSection(m_spawn.Texture);
         m_sectionA.SpawnSection(m_cellWidth, m_cellHeight, m_nextOrigin);
         m_nextOrigin.y = m_nextOrigin.y + ((m_sectionA.Height + 1) * m_cellHeight);
 
-        m_sectionB = GenerateSection(SelectChunks(_chunks));
+        //1st section
+        m_sectionB = GenerateSection(SelectChunks(m_chunks));
         m_sectionB.SpawnSection(m_cellWidth, m_cellHeight, m_nextOrigin);
         m_nextOrigin.y = m_nextOrigin.y + ((m_sectionB.Height + 1) * m_cellHeight);
 
-        m_currentBuffer = false;
+        m_currentBuffer = true;
     }
 
+    /// <summary>
+    /// Generates section froma single chunk image
+    /// </summary>
+    /// <param name="_chunk"></param>
+    /// <returns></returns>
     private Section GenerateSection(Texture2D _chunk)
     {
         int width = _chunk.width;
         int height = _chunk.height;
         GameObject[,] grid = new GameObject[width, height];
 
+        //Converts image's pixels in to equivalent block
         Color[] pixels = _chunk.GetPixels();
         for (int y = 0; y <= _chunk.height - 1; y++)
         {
@@ -126,11 +178,17 @@ public class Level : MonoBehaviour
         return new Section(m_sectionsGenerated, width, height, grid, transform);
     }
 
+    /// <summary>
+    /// Generates section based on a list of chunk images
+    /// </summary>
+    /// <param name="_chunks"></param>
+    /// <returns></returns>
     private Section GenerateSection(List<Texture2D> _chunks)
     {
         int width = 0;
         int height = 0;
 
+        //Gets overall width and height of section
         foreach (Texture2D chunk in _chunks)
         {
             if(chunk.width > width)
@@ -143,14 +201,8 @@ public class Level : MonoBehaviour
         height -= _chunks.Count - 1;
 
         GameObject[,] grid = new GameObject[width, height];
-        for (int y = 0; y <= height - 1; y++)
-        {
-            for (int x = 0; x <= width - 1; x++)
-            {
-                grid[x, y] = m_defaultTemplate;
-            }
-        }
 
+        //Converts image's pixels in to equivalent block
         int index = 0;
         foreach (Texture2D chunk in _chunks)
         {
@@ -170,6 +222,11 @@ public class Level : MonoBehaviour
         return new Section(m_sectionsGenerated, width, height, grid, transform);
     }
 
+    /// <summary>
+    /// Finds prefab cell based on the indetifier set in Level inspector
+    /// </summary>
+    /// <param name="_identifier"></param>
+    /// <returns></returns>
     private GameObject GetCell(Color _identifier)
     {
         foreach(Cell template in m_cellTemplates)
@@ -180,14 +237,19 @@ public class Level : MonoBehaviour
             }
         }
 
-        Debug.Log(_identifier);
         return m_defaultTemplate;
     }
 
+    /// <summary>
+    /// Generates a list of chunks based on entrances and exits
+    /// </summary>
+    /// <param name="_chunks"></param>
+    /// <returns></returns>
     private List<Texture2D> SelectChunks(int _chunks)
     {
         List<Texture2D> chunks = new List<Texture2D>();
 
+        chunks.Add(m_separator.Texture);
         int prevIndex = GetNextChunk(m_separator.Exits);
         chunks.Add(m_chunkData[prevIndex].Texture);
 
@@ -200,11 +262,14 @@ public class Level : MonoBehaviour
         prevIndex = GetNextChunk(m_chunkData[prevIndex].Exits, m_separator.Entrances);
         chunks.Add(m_chunkData[prevIndex].Texture);
 
-        chunks.Add(m_separator.Texture);
-
         return chunks;
     }
 
+    /// <summary>
+    /// Gets a suitable next chunk based on the exits from the previous chunk
+    /// </summary>
+    /// <param name="_exits"></param>
+    /// <returns></returns>
     public int GetNextChunk(List<Openings> _exits)
     {
         int startingIndex = UnityEngine.Random.Range(0, m_chunkData.Count);
@@ -229,6 +294,12 @@ public class Level : MonoBehaviour
         return -1;
     }
 
+    /// <summary>
+    /// Gets a suitable next chunk based on the exits from the previous chunk and entrance of next chunk
+    /// </summary>
+    /// <param name="_exits"></param>
+    /// <param name="_entrances"></param>
+    /// <returns></returns>
     public int GetNextChunk(List<Openings> _exits, List<Openings> _entrances)
     {
         int startingIndex = UnityEngine.Random.Range(0, m_chunkData.Count);
@@ -259,6 +330,12 @@ public class Level : MonoBehaviour
         return -1;
     }
 
+    /// <summary>
+    /// Determines whether chunks have compatible entrances and exits
+    /// </summary>
+    /// <param name="_entrances"></param>
+    /// <param name="_exits"></param>
+    /// <returns></returns>
     public bool CompareOpenings(List<Openings> _entrances, List<Openings> _exits)
     {
         foreach(Openings entrance in _entrances)
