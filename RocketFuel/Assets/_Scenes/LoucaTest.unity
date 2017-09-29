@@ -236,11 +236,6 @@ Prefab:
       propertyPath: m_RootOrder
       value: 1
       objectReference: {fileID: 0}
-    - target: {fileID: 114585743869561332, guid: ba36a76e7d803a24385d281f413d3f98,
-        type: 2}
-      propertyPath: m_particleDelay
-      value: 1.5
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: ba36a76e7d803a24385d281f413d3f98, type: 2}
   m_IsPrefabParent: 0
