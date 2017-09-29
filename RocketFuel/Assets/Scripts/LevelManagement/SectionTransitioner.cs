@@ -4,14 +4,13 @@ public class SectionTransitioner : MonoBehaviour
 {
     public int m_sectionIndex = 0;
 
-    private void Awake()
+    void Start()
     {
-        m_sectionIndex = LevelManager.Instance.GetGenerateSectionCount();
+        m_sectionIndex = GetComponent<CellData>().m_sectionIndex;
     }
 
     void OnTriggerEnter2D(Collider2D _other)
     {
-        Debug.Log("Triggered");
         if (_other.tag == "Player")
         {
             SectionTransitionData data = new SectionTransitionData(m_sectionIndex);

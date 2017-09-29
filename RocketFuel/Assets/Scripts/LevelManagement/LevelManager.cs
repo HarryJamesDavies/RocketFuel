@@ -56,6 +56,10 @@ public class LevelManager : MonoBehaviour
         {
             StartCoroutine(Delay());
         }
+        else
+        {
+            m_level.SpawnFinishLine();
+        }
         m_currentSection++;
     }
 
@@ -88,5 +92,15 @@ public class LevelManager : MonoBehaviour
     public bool CheckSectionCapHit()
     {
         return m_level.m_sectionsGenerated == m_sections;
+    }
+
+    public bool CheckCellFilled(int _sectionIndex, GridCoordinates _coords)
+    {
+        return m_level.CheckCellFilled(_sectionIndex, _coords);
+    }
+
+    public void AddLava(int _sectionIndex, GridCoordinates _coords)
+    {
+        m_level.AddLava(_sectionIndex, _coords);
     }
 }

@@ -9,11 +9,21 @@ public class Level : MonoBehaviour
     {
         public Section(int _index, int _width, int _height, GameObject[,] _content, Transform _parent)
         {
+            Index = _index;
             Grid = _content;
             Width = _width - 1;
             Height = _height - 1;
             Holder = new GameObject("Section " + _index + " Holder: ").transform;
             Holder.SetParent(_parent);
+
+            SpawnGrid = new bool[_width, _height];
+            for (int y = 0; y <= Height; y++)
+            {
+                for (int x = 0; x <= Width; x++)
+                {
+                    SpawnGrid[x, y] = false;
+                }
+            }
         }
 
         /// <summary>
@@ -24,14 +34,41 @@ public class Level : MonoBehaviour
         /// <param name="_origin"></param>
         public void SpawnSection(float _cellWidth, float _cellHeight, Vector3 _origin)
         {
+            CellWidth = _cellWidth;
+            CellHeight = _cellHeight;
+            Origin = _origin;
+
             for (int y = 0; y <= Height; y++)
             {
                 for (int x = 0; x <= Width; x++)
                 {
-                    Vector3 pos = new Vector3(_origin.x + (_cellWidth * x) + (_cellWidth / 2.0f), 
-                        _origin.y + (_cellHeight * y) + (_cellHeight / 2.0f), 0.0f);
+                    Vector3 pos = new Vector3(Origin.x + (CellWidth * x) + (CellWidth / 2.0f),
+                        Origin.y + (CellHeight * y) + (CellHeight / 2.0f), 0.0f);
                     Grid[x, y] = Instantiate(Grid[x, y], pos, Quaternion.identity);
                     Grid[x, y].transform.SetParent(Holder);
+                    Grid[x, y].GetComponent<CellData>().Initialise(Index, new GridCoordinates(x, y));
+                }
+            }
+        }
+
+        public void SpawnLava(GameObject _lava)
+        {
+            for (int y = 0; y <= Height; y++)
+            {
+                for (int x = 0; x <= Width; x++)
+                {
+                    if(SpawnGrid[x, y])
+                    {
+                        Destroy(Grid[x, y]);
+
+                        Vector3 pos = new Vector3(Origin.x + (CellWidth * x) + (CellWidth / 2.0f),
+                            Origin.y + (CellHeight * y) + (CellHeight / 2.0f), 0.0f);
+                        Grid[x, y] = Instantiate(_lava, pos, Quaternion.identity);
+                        Grid[x, y].transform.SetParent(Holder);
+                        Grid[x, y].GetComponent<CellData>().Initialise(Index, new GridCoordinates(x, y), CellData.CellContent.Liquid);
+
+                        SpawnGrid[x, y] = false;
+                    }
                 }
             }
         }
@@ -52,14 +89,38 @@ public class Level : MonoBehaviour
                 }
             }
 
+            for (int y = 0; y <= Height; y++)
+            {
+                for (int x = 0; x <= Width; x++)
+                {
+                    SpawnGrid[x, y] = false;
+                }
+            }
+
             Destroy(Holder.gameObject);
         }
 
-        public GameObject[,] Grid;
+        public bool CheckCellFilled(GridCoordinates _coords)
+        {
+            return (CellData.CellContent.Air != Grid[_coords.X, _coords.Y].GetComponent<CellData>().m_content);
+        }
 
+        public void AddLava(GridCoordinates _coords)
+        {
+            SpawnGrid[_coords.X, _coords.Y] = true;
+        }
+
+        public GameObject[,] Grid;
+        public bool[,] SpawnGrid;
+
+        public int Index;
         public int Width;
         public int Height;
+
         private Transform Holder;
+        private float CellWidth;
+        private float CellHeight;
+        private Vector3 Origin;
     }
 
     public enum Openings
@@ -85,9 +146,11 @@ public class Level : MonoBehaviour
     }
 
     public Chunk m_spawn;
-    public Chunk m_separator;
+    public GameObject m_finishLine;
+    public List<Chunk> m_separators;
     public List<Chunk> m_chunkData;
 
+    public GameObject m_lavaTemplate;
     public GameObject m_defaultTemplate;
     public List<Cell> m_cellTemplates;
 
@@ -110,8 +173,6 @@ public class Level : MonoBehaviour
             m_sectionA = GenerateSection(SelectChunks(m_chunks));
             m_sectionA.SpawnSection(m_cellWidth, m_cellHeight, m_nextOrigin);
             m_nextOrigin.y = m_nextOrigin.y + ((m_sectionA.Height + 1) * m_cellHeight);
-
-            m_currentBuffer = false;
         }
         else
         {
@@ -120,9 +181,24 @@ public class Level : MonoBehaviour
             m_sectionB = GenerateSection(SelectChunks(m_chunks));
             m_sectionB.SpawnSection(m_cellWidth, m_cellHeight, m_nextOrigin);
             m_nextOrigin.y = m_nextOrigin.y + ((m_sectionB.Height + 1) * m_cellHeight);
-
-            m_currentBuffer = true;
         }
+
+        m_currentBuffer = !m_currentBuffer;
+    }
+
+    public void SpawnFinishLine()
+    {
+        if (m_currentBuffer)
+        {
+            m_nextOrigin.x = m_sectionA.Width / 2.0f;
+        }
+        else
+        {
+            m_nextOrigin.x = m_sectionB.Width / 2.0f;
+        }
+        GameObject finish = Instantiate(m_finishLine, m_nextOrigin, Quaternion.identity);
+        finish.transform.SetParent(transform);
+        m_currentBuffer = !m_currentBuffer;
     }
 
     /// <summary>
@@ -249,8 +325,9 @@ public class Level : MonoBehaviour
     {
         List<Texture2D> chunks = new List<Texture2D>();
 
-        chunks.Add(m_separator.Texture);
-        int prevIndex = GetNextChunk(m_separator.Exits);
+        int separatorIndex = UnityEngine.Random.Range(0, m_separators.Count);
+        chunks.Add(m_separators[separatorIndex].Texture);
+        int prevIndex = GetNextChunk(m_separators[separatorIndex].Exits);
         chunks.Add(m_chunkData[prevIndex].Texture);
 
         for (int iter = 1; iter <= _chunks - 3; iter++)
@@ -259,7 +336,7 @@ public class Level : MonoBehaviour
             chunks.Add(m_chunkData[prevIndex].Texture);
         }
 
-        prevIndex = GetNextChunk(m_chunkData[prevIndex].Exits, m_separator.Entrances);
+        prevIndex = GetNextChunk(m_chunkData[prevIndex].Exits, m_separators[0].Entrances);
         chunks.Add(m_chunkData[prevIndex].Texture);
 
         return chunks;
@@ -350,5 +427,54 @@ public class Level : MonoBehaviour
         }
 
         return false;
+    }
+
+    public bool CheckCellFilled(int _sectionIndex, GridCoordinates _coords)
+    {
+        if (m_sectionA.Index == _sectionIndex)
+        {
+            if (_coords.CheckValidCoords(m_sectionA.Width - 1, m_sectionA.Height - 1))
+            {
+                return m_sectionA.CheckCellFilled(_coords);
+            }
+        }
+        else
+        {
+            if (_coords.CheckValidCoords(m_sectionB.Width - 1, m_sectionB.Height - 1))
+            {
+                return m_sectionB.CheckCellFilled(_coords);
+            }
+        }
+        return true;
+    }
+
+    public void AddLava(int _sectionIndex, GridCoordinates _coords)
+    {
+        if (m_sectionA.Index == _sectionIndex)
+        {
+            if (_coords.CheckValidCoords(m_sectionA.Width - 1, m_sectionA.Height - 1))
+            {
+                m_sectionA.AddLava(_coords);
+            }
+        }
+        else
+        {
+            if (_coords.CheckValidCoords(m_sectionB.Width - 1, m_sectionB.Height - 1))
+            {
+                m_sectionB.AddLava(_coords);
+            }
+        }
+    }
+
+    void LateUpdate()
+    {
+        if (m_currentBuffer)
+        {
+            m_sectionA.SpawnLava(m_lavaTemplate);
+        }
+        else
+        {
+            m_sectionB.SpawnLava(m_lavaTemplate);
+        }
     }
 }

@@ -24,6 +24,7 @@ GameObject:
   - component: {fileID: 114995539793871940}
   - component: {fileID: 50870694337497292}
   - component: {fileID: 61086966260709724}
+  - component: {fileID: 114415196889482152}
   m_Layer: 0
   m_Name: DirtTestHarry
   m_TagString: Untagged
@@ -109,6 +110,22 @@ MonoBehaviour:
   m_particleDelay: 1.5
   m_maxAngle: 2
   m_smoothness: 50
+--- !u!114 &114415196889482152
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1910551075342134}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 42312345d87df27468b18857967ee8fd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_sectionIndex: -1
+  m_coords:
+    X: 0
+    Y: 0
+  m_content: 0
 --- !u!114 &114995539793871940
 MonoBehaviour:
   m_ObjectHideFlags: 1

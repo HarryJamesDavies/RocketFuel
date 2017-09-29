@@ -14,7 +14,7 @@ public class SectionBaricade : MonoBehaviour
         GlobalEventBoard.Instance.SubscribeToEvent(Events.Event.LEV_TransitionSection, Ev_TriggerBaricade);
 
         m_pb = GetComponent<PullableBlock>();
-        m_sectionIndex = LevelManager.Instance.GetGenerateSectionCount();
+        m_sectionIndex = GetComponent<CellData>().m_sectionIndex;
 	}
 
     void OnDestroy()
@@ -27,7 +27,7 @@ public class SectionBaricade : MonoBehaviour
         if (_data != null && m_pb)
         {
             SectionTransitionData data = _data as SectionTransitionData;
-            if (data.SectionIndex == LevelManager.Instance.GetCurrentSectionIndex())
+            if (data.SectionIndex == m_sectionIndex)
             {
                 StartCoroutine(Delay());
             }
