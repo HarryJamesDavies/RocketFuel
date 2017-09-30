@@ -10,7 +10,8 @@ public class PullableBlock : MonoBehaviour
         Right,
         Down,
         Left,
-        Forward
+        Forward,
+        Normal
     }
 
     public PullType m_pullType;
@@ -31,12 +32,18 @@ public class PullableBlock : MonoBehaviour
 
     private Vector3 m_targetPosition;
 
+    //private SpriteRenderer m_spriteRenderer;
+
+    //public Sprite[] m_sprites;
+
     // Use this for initialization
     private void Start()
     {
         m_clonePrefab = gameObject;
         m_minAngle = -m_maxAngle;
         m_lerpTime = 0f;
+        //m_spriteRenderer = GetComponent<SpriteRenderer>();
+        //m_spriteRenderer.sprite = m_sprites[(int)m_pullType];
         //StartCoroutine(DelaySpawn()); //test function call leave commmented
     }
 
@@ -74,6 +81,7 @@ public class PullableBlock : MonoBehaviour
             Vector3 t_position = transform.position;
             m_targetPosition = GetNewPosition(t_position);
             m_clone = (GameObject)Instantiate(m_clonePrefab, transform.position, Quaternion.identity);
+            //m_clone.GetComponent<SpriteRenderer>().sprite = m_sprites[5];
             Destroy(m_clone.GetComponent<PullableBlock>());
             m_clone.transform.parent = gameObject.transform;
             m_particle = (GameObject)Instantiate(m_particlePrefab, transform.position, Quaternion.identity);
@@ -168,6 +176,7 @@ public class PullableBlock : MonoBehaviour
         m_maxAngle = _angle;
         m_minAngle = -m_maxAngle;
         m_smoothness = _smoothness;
+        //m_spriteRenderer.sprite = m_sprites[(int)m_pullType];
     }
 
     public void CloneSetUp(int _pullType, GameObject _clone, GameObject _particle, float _offset, float _moveSpeed, float _delay, float _particleDelay, float _angle, float _smoothness)
@@ -182,5 +191,6 @@ public class PullableBlock : MonoBehaviour
         m_maxAngle = _angle;
         m_minAngle = -m_maxAngle;
         m_smoothness = _smoothness;
+        //m_spriteRenderer.sprite = m_sprites[(int)m_pullType];
     }
 }
