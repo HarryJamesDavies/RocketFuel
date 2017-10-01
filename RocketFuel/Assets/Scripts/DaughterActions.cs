@@ -20,6 +20,9 @@ public class DaughterActions : MonoBehaviour {
     private GameObject targetLock;
     private GameObject closest;
     private GameObject[] targets;
+    private GameObject next;
+    private GameObject prev;
+    private GameObject empty;
 
     private void Awake()
     {
@@ -37,6 +40,7 @@ public class DaughterActions : MonoBehaviour {
         PlayerMovement();
         TargetSelect();
         UsePowers();
+
     }
 
 
@@ -75,8 +79,8 @@ public class DaughterActions : MonoBehaviour {
     }
     private void TargetSelect()
     {
-        if (player.GetButtonDown("Target Lock Scroll Right") || (player.GetButtonDown("Target Lock Scroll Left"))
-        {
+        
+        if (player.GetButtonDown("Target Lock Scroll Right") || player.GetButtonDown("Target Lock Scroll Left"))
             Debug.Log("Target Locking");
             if (targetLock == null)
             {
@@ -84,10 +88,9 @@ public class DaughterActions : MonoBehaviour {
             }
             else if (targetLock != null)
             {
-                targetLock = TargetSelectNextOrPrev();
-                Debug.Log("Select next or previous target in array"); //TODO
+               targetLock = TargetSelectNextOrPrev();
+               Debug.Log("Select next or previous target in array"); 
             }
-        }
     }
 
     private GameObject TargetSelectClosest()
@@ -110,24 +113,37 @@ public class DaughterActions : MonoBehaviour {
         return closest;
     }
 
-    private GameObject TargetSelectNextOrPrev()
+    public GameObject TargetSelectNextOrPrev()
     {
 
-        int index = closest;
-        int prev = list[index - 1];
-        int next = list[index + 1];
+        for (int i = 0; i < targets.Length; i++)
+        {
+            if (targets[i].GetComponent<Renderer>().isVisible == true)
+            {
+                List<GameObject> targetList = new List<GameObject>(targets);
+                targetList.OrderBy(x => Vector2.Distance(transform.position, x.transform.position)).ToList();
+                GameObject[] visibleTargets = targetList.ToArray();
 
-        return next;
-
+                if (player.GetButtonDown("Target Lock Scroll Right"))
+                {
+                   
+                    
+                    return next;
+                }
+                else if (player.GetButtonDown("Target Lock Scroll Left"))
+                {
+                    
+                    return prev;
+                    
+                }
+            }
+           
+        }
+        return empty;
     }
 
-    return prev;
-    }
-
-
-
-    void OnCollisionEnter2D(Collision2D coll)
-    {
+        void OnCollisionEnter2D(Collision2D coll)
+        {
         if (coll.gameObject.tag == "Ground")
         {
             isGrounded = true;
