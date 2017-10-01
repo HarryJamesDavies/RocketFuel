@@ -37,6 +37,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4913954317697152}
   - component: {fileID: 212390624547443402}
+  - component: {fileID: 114643059163370514}
   m_Layer: 0
   m_Name: CaveBackground
   m_TagString: Untagged
@@ -53,6 +54,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4374263257944970}
   - component: {fileID: 212662062071831392}
+  - component: {fileID: 114630442813141526}
   m_Layer: 0
   m_Name: DiamondBackground
   m_TagString: Untagged
@@ -69,6 +71,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4764954391780936}
   - component: {fileID: 212741522346275926}
+  - component: {fileID: 114457649400883360}
   m_Layer: 0
   m_Name: GoldBackground
   m_TagString: Untagged
@@ -156,6 +159,39 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 21.6, y: 14.4}
   m_EdgeRadius: 0
+--- !u!114 &114457649400883360
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1820100809430738}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cfb338b0c146a5642b2eac02475f8b6d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &114630442813141526
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1800393011735264}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cfb338b0c146a5642b2eac02475f8b6d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &114643059163370514
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1763928195506014}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cfb338b0c146a5642b2eac02475f8b6d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!212 &212390624547443402
 SpriteRenderer:
   m_ObjectHideFlags: 1

@@ -187,7 +187,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 4913954317697152, guid: a1e827a3475f042478a86c188ea02e6d, type: 2}
       propertyPath: m_LocalPosition.x
-      value: 5.19
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: a1e827a3475f042478a86c188ea02e6d, type: 2}
@@ -416,11 +416,11 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 4913954317697152, guid: a1e827a3475f042478a86c188ea02e6d, type: 2}
       propertyPath: m_LocalPosition.x
-      value: -3.18
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4913954317697152, guid: a1e827a3475f042478a86c188ea02e6d, type: 2}
       propertyPath: m_LocalPosition.y
-      value: -2.76
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: a1e827a3475f042478a86c188ea02e6d, type: 2}
@@ -551,6 +551,36 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 4997008497597372, guid: a1e827a3475f042478a86c188ea02e6d, type: 2}
       propertyPath: m_RootOrder
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 114643059163370514, guid: a1e827a3475f042478a86c188ea02e6d,
+        type: 2}
+      propertyPath: m_offsetMinMax.x
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 114630442813141526, guid: a1e827a3475f042478a86c188ea02e6d,
+        type: 2}
+      propertyPath: m_offsetMinMax.x
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 114457649400883360, guid: a1e827a3475f042478a86c188ea02e6d,
+        type: 2}
+      propertyPath: m_offsetMinMax.x
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 114643059163370514, guid: a1e827a3475f042478a86c188ea02e6d,
+        type: 2}
+      propertyPath: m_offsetMinMax.y
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 114630442813141526, guid: a1e827a3475f042478a86c188ea02e6d,
+        type: 2}
+      propertyPath: m_offsetMinMax.y
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 114457649400883360, guid: a1e827a3475f042478a86c188ea02e6d,
+        type: 2}
+      propertyPath: m_offsetMinMax.y
       value: 2
       objectReference: {fileID: 0}
     m_RemovedComponents: []
