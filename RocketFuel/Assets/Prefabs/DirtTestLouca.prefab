@@ -21,6 +21,9 @@ GameObject:
   - component: {fileID: 4447873735446236}
   - component: {fileID: 212960849487251438}
   - component: {fileID: 114585743869561332}
+  - component: {fileID: 50779590268755538}
+  - component: {fileID: 61462730577727636}
+  - component: {fileID: 114737050756769360}
   m_Layer: 0
   m_Name: DirtTestLouca
   m_TagString: Untagged
@@ -41,6 +44,51 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!50 &50779590268755538
+Rigidbody2D:
+  serializedVersion: 4
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1925127399543990}
+  m_BodyType: 2
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDrag: 0
+  m_AngularDrag: 0.05
+  m_GravityScale: 1
+  m_Material: {fileID: 0}
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 0
+  m_Constraints: 0
+--- !u!61 &61462730577727636
+BoxCollider2D:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1925127399543990}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 0.8, y: 0.8}
+    newSize: {x: 0.8, y: 0.8}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 0.8, y: 0.8}
+  m_EdgeRadius: 0
 --- !u!114 &114585743869561332
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -53,7 +101,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_pullType: 0
-  m_particlePrefab: {fileID: 1125235184365368, guid: 0703276a5496ad84ba9b4d603260c8b4,
+  m_particlePrefab: {fileID: 1569443109489146, guid: be6cb2db41410d74a8b9b603c3c6c027,
     type: 2}
   m_offset: 0.5
   m_moveSpeed: 0.5
@@ -61,6 +109,29 @@ MonoBehaviour:
   m_particleDelay: 1.5
   m_maxAngle: 2
   m_smoothness: 50
+  m_sprites:
+  - {fileID: 21300000, guid: 27600396ce17bbc49a8d830b72735ade, type: 3}
+  - {fileID: 21300000, guid: 79c9a30e338a4a349848c3892f7f774e, type: 3}
+  - {fileID: 21300000, guid: d24d6ce77f305e34e9e1930032466c46, type: 3}
+  - {fileID: 21300000, guid: 7599ae29808476f4c8c2f3e0360cec89, type: 3}
+  - {fileID: 21300000, guid: cce02ab0b79403d499f152583e21f11b, type: 3}
+  - {fileID: 21300000, guid: ce97334641854df4f97dee6b7fc4c55d, type: 3}
+--- !u!114 &114737050756769360
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1925127399543990}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 42312345d87df27468b18857967ee8fd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_sectionIndex: -1
+  m_coords:
+    X: 0
+    Y: 0
+  m_content: 0
 --- !u!212 &212960849487251438
 SpriteRenderer:
   m_ObjectHideFlags: 1
