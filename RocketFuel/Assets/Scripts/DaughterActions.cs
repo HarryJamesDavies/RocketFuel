@@ -20,8 +20,11 @@ public class DaughterActions : MonoBehaviour {
     private GameObject targetLock;
     private GameObject closest;
     private GameObject[] targets;
-    
+    private int indexCurrent;
     private GameObject empty;
+    private GameObject target;
+    private GameObject prev;
+    private GameObject next;
 
     private void Awake()
     {
@@ -88,7 +91,7 @@ public class DaughterActions : MonoBehaviour {
             else if (targetLock != null)
             {
                targetLock = TargetSelectNextOrPrev();
-               Debug.Log("Select next or previous target in array"); 
+                
             }
     }
 
@@ -115,30 +118,28 @@ public class DaughterActions : MonoBehaviour {
     public GameObject TargetSelectNextOrPrev()
     {
 
-        //for (int i = 0; i < targets.Length; i++)
-        //{
-        //    if (targets[i].GetComponent<Renderer>().isVisible == true)
-            //{
-            //    List<GameObject> targetList = new List<GameObject>(targets);
-            //    targetList.OrderBy(x => Vector2.Distance(transform.position, x.transform.position)).ToList();
-            //    //GameObject[] visibleTargets = targetList.ToArray();
-            //    int index = 0;
-            //    int prev = targetList[index - 1];
-            //    int next = targetList[index + 1];
-            //    if (index - 1 > -1) prev = [index - 1];
-            //    if (index + 1 < targetList.Count) next = targetList[index + 1];
-            //    }
-            //    if (player.GetButtonDown("Target Lock Scroll Right"))
-            //    {
-            //        return next;
-            //    }
-            //    else if (player.GetButtonDown("Target Lock Scroll Left"))
-            //    {
-            //        return prev;
-            //    }
-            //}           
-        //}
-        return empty;
+        for (int i = 0; i < targets.Length; i++)
+        {
+            if (targets[i].GetComponent<Renderer>().isVisible == true)
+            {
+                List<GameObject> targetList = new List<GameObject>(targets);
+                targetList.OrderBy(x => Vector2.Distance(transform.position, x.transform.position)).ToList();
+                target = targetList[indexCurrent];
+                if(indexCurrent - 1 > -1) prev = targetList[indexCurrent - 1];
+                if (indexCurrent + 1 < targetList.Count) next = targetList[indexCurrent + 1];
+                
+               
+            }
+            if (player.GetButtonDown("Target Lock Scroll Right"))
+            {
+                return next;
+            }
+            else if (player.GetButtonDown("Target Lock Scroll Left"))
+            {
+                return prev;
+            }
+        }
+    return empty;
     }
 
         void OnCollisionEnter2D(Collision2D coll)
