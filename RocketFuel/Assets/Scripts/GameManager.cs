@@ -84,7 +84,7 @@ public class GameManager : MonoBehaviour
 
         if (m_active)
         {
-            m_scoreText.text = "" + (int)m_player.transform.position.y;
+           // m_scoreText.text = "" + (int)m_player.transform.position.y;
         }
     }
 
