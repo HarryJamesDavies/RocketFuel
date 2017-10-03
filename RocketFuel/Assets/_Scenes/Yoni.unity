@@ -330,6 +330,9 @@ MonoBehaviour:
   gravity: 10
   isGrounded: 0
   speed: 10
+  m_minDistance: 10
+  m_allTargets: []
+  m_inRangeTargets: []
 --- !u!1 &336442668
 GameObject:
   m_ObjectHideFlags: 0

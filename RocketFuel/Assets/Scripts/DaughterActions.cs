@@ -12,29 +12,32 @@ public class DaughterActions : MonoBehaviour {
     public float gravity = 10.0f;
     public bool isGrounded;
     public float speed = 200.0f;
+    public float m_minDistance = 1000.0f;
 
     Rigidbody2D rb;
 
     private Player player;
     private Vector3 moveDirection = Vector3.zero;
-    private GameObject targetLock;
-    private GameObject closest;
-    private GameObject[] targets;
     private int indexCurrent;
-    private GameObject empty;
-    private GameObject target;
-    private GameObject prev;
-    private GameObject next;
+    public List<GameObject> m_allTargets = new List<GameObject>();
+    public List<GameObject> m_inRangeTargets = new List<GameObject>();
 
     private void Awake()
     {
         player = ReInput.players.GetPlayer(0); // get the player by id
     }
     // Use this for initialization
-    void Start() {
+    void Start()
+    {
         rb = GetComponent<Rigidbody2D>();
         jump = new Vector3(0.0f, 1.0f, 0.0f);
-        targets = GameObject.FindGameObjectsWithTag("Dirt");
+        GetTargets();
+    }
+
+    void GetTargets()
+    {
+        m_allTargets.Clear();
+        m_allTargets = GameObject.FindGameObjectsWithTag("Dirt").ToList<GameObject>();
     }
 
     // Update is called once per frame
@@ -79,71 +82,94 @@ public class DaughterActions : MonoBehaviour {
             Debug.Log("Powers!");
         }
     }
-    private void TargetSelect()
+
+    int LoopTargetIndex(int _index)
+    {
+        if (m_inRangeTargets != null)
+        {
+            if (m_inRangeTargets.Count != 0)
+            {
+                if (_index >= m_inRangeTargets.Count)
+                {
+                    return _index - m_inRangeTargets.Count;
+                }
+                else if (_index < 0)
+                {
+                    return _index + m_inRangeTargets.Count;
+                }
+            }
+        }
+        return _index;
+    }
+
+    void GetNext()
+    {
+        indexCurrent = LoopTargetIndex(++indexCurrent);
+    }
+
+    void GetPrev()
+    {
+        indexCurrent = LoopTargetIndex(--indexCurrent);
+    }
+
+    GameObject GetCurrent()
+    {
+        if (m_inRangeTargets != null)
+        {
+            if (m_inRangeTargets.Count != 0)
+            {
+                return m_inRangeTargets[indexCurrent];
+            }
+        }return null;
+    }
+
+    GameObject TargetSelect()
     {
         
-        if (player.GetButtonDown("Target Lock Scroll Right") || player.GetButtonDown("Target Lock Scroll Left"))
-            Debug.Log("Target Locking");
-            if (targetLock == null)
-            {
-                targetLock = TargetSelectClosest();
-            }
-            else if (targetLock != null)
-            {
-               targetLock = TargetSelectNextOrPrev();
-                
-            }
+        CollectReorderPowerObjects();
+        
+        if (player.GetButtonDown("Target Lock Scroll Right"))
+        {
+            GetNext();
+            Debug.Log(indexCurrent);
+        }
+        if (player.GetButtonDown("Target Lock Scroll Left"))
+        {
+            GetPrev();
+            Debug.Log(indexCurrent);
+        }
+        return null;
     }
 
-    private GameObject TargetSelectClosest()
+    void CollectReorderPowerObjects()
     {
-        GameObject closest = null;
-        float distance = Mathf.Infinity;
-        Vector3 position = transform.position;
-
-        foreach (GameObject target in targets)
+        m_inRangeTargets.Clear();
+ 
+        foreach (GameObject target in m_allTargets)
         {
-            Vector3 diff = target.transform.position - position;
-            float curDistance = diff.sqrMagnitude;
-            if (curDistance < distance)
+            float distance = Vector2.Distance(transform.position, target.transform.position);
+
+            if (distance <= m_minDistance)
             {
-                closest = target;
-                distance = curDistance;
+                m_inRangeTargets.Add(target);
+
+            }
+            else
+            {
+                continue;
             }
         }
-        Debug.Log(closest.name.ToString());
-        return closest;
-    }
 
-    public GameObject TargetSelectNextOrPrev()
-    {
+        m_inRangeTargets = m_inRangeTargets.OrderBy(x => Vector2.Distance(transform.position, x.transform.position)).ToList();
 
-        for (int i = 0; i < targets.Length; i++)
+        if (m_inRangeTargets.Count > 0)
         {
-            if (targets[i].GetComponent<Renderer>().isVisible == true)
-            {
-                List<GameObject> targetList = new List<GameObject>(targets);
-                targetList.OrderBy(x => Vector2.Distance(transform.position, x.transform.position)).ToList();
-                target = targetList[indexCurrent];
-                if(indexCurrent - 1 > -1) prev = targetList[indexCurrent - 1];
-                if (indexCurrent + 1 < targetList.Count) next = targetList[indexCurrent + 1];
-                
-               
-            }
-            if (player.GetButtonDown("Target Lock Scroll Right"))
-            {
-                return next;
-            }
-            else if (player.GetButtonDown("Target Lock Scroll Left"))
-            {
-                return prev;
-            }
+            Debug.Log(string.Format("Item 0: {0}", m_inRangeTargets[0].name));
         }
-    return empty;
     }
 
-        void OnCollisionEnter2D(Collision2D coll)
-        {
+    void OnCollisionEnter2D(Collision2D coll)
+    {
         if (coll.gameObject.tag == "Ground")
         {
             isGrounded = true;
