@@ -16,11 +16,14 @@ public class DaughterActions : MonoBehaviour {
 
     Rigidbody2D rb;
 
+    public List<GameObject> m_allTargets = new List<GameObject>();
+    public List<GameObject> m_inRangeTargets = new List<GameObject>();
+
     private Player player;
     private Vector3 moveDirection = Vector3.zero;
     private int indexCurrent;
-    public List<GameObject> m_allTargets = new List<GameObject>();
-    public List<GameObject> m_inRangeTargets = new List<GameObject>();
+
+    private Color selectColor = Color.cyan;  
 
     private void Awake()
     {
@@ -41,7 +44,8 @@ public class DaughterActions : MonoBehaviour {
     }
 
     // Update is called once per frame
-    void Update() {
+    void Update()
+    {
         PlayerMovement();
         TargetSelect();
         UsePowers();
@@ -69,7 +73,6 @@ public class DaughterActions : MonoBehaviour {
             {
                 rb.AddForce(new Vector2(0, jumpForce), ForceMode2D.Impulse);
                 isGrounded = false;
-                Debug.Log("Jump!");
             }
         }
         moveDirection.y -= gravity * Time.deltaTime;
@@ -77,9 +80,13 @@ public class DaughterActions : MonoBehaviour {
 
     private void UsePowers()
     {
-        if (player.GetButtonDown("Powers"))
+        if (GetCurrent() && GetCurrent().GetComponent<PullableBlock>())
         {
-            Debug.Log("Powers!");
+            if (player.GetButtonDown("Powers"))
+            {
+               GetCurrent().GetComponent<PullableBlock>().DelayedSpawn();
+               ClearColorOfSelected(GetCurrent());
+            }
         }
     }
 
@@ -105,11 +112,13 @@ public class DaughterActions : MonoBehaviour {
     void GetNext()
     {
         indexCurrent = LoopTargetIndex(++indexCurrent);
+        ChangeSelectedColor();
     }
 
     void GetPrev()
     {
         indexCurrent = LoopTargetIndex(--indexCurrent);
+        ChangeSelectedColor();
     }
 
     GameObject GetCurrent()
@@ -130,13 +139,17 @@ public class DaughterActions : MonoBehaviour {
         
         if (player.GetButtonDown("Target Lock Scroll Right"))
         {
+            ClearColorOfSelected();
             GetNext();
-            Debug.Log(indexCurrent);
+            GetCurrent();
+            Debug.Log(string.Format("closest, indexCurrent and name of current index : {0} + {1} + {2}", m_inRangeTargets[0].name, indexCurrent, GetCurrent().name));
         }
         if (player.GetButtonDown("Target Lock Scroll Left"))
         {
+            ClearColorOfSelected();
             GetPrev();
-            Debug.Log(indexCurrent);
+            GetCurrent();
+            Debug.Log(string.Format("closest, indexCurrent and name of current index : {0} + {1} + {2}", m_inRangeTargets[0].name, indexCurrent, GetCurrent().name));
         }
         return null;
     }
@@ -147,25 +160,45 @@ public class DaughterActions : MonoBehaviour {
  
         foreach (GameObject target in m_allTargets)
         {
-            float distance = Vector2.Distance(transform.position, target.transform.position);
-
-            if (distance <= m_minDistance)
+            if (!target.GetComponent<PullableBlock>().HasClone())
             {
-                m_inRangeTargets.Add(target);
+                float distance = Vector2.Distance(transform.position, target.transform.position);
 
+                if (distance <= m_minDistance)
+                {
+                    m_inRangeTargets.Add(target);
+
+                }
             }
             else
             {
                 continue;
             }
+            
         }
 
         m_inRangeTargets = m_inRangeTargets.OrderBy(x => Vector2.Distance(transform.position, x.transform.position)).ToList();
-
-        if (m_inRangeTargets.Count > 0)
+    }
+    void ClearColorOfSelected(GameObject _object)
+    {
+        _object.GetComponent<SpriteRenderer>().color = Color.white;
+        if (_object.transform.childCount > 0)
         {
-            Debug.Log(string.Format("Item 0: {0}", m_inRangeTargets[0].name));
+            GetCurrent().gameObject.transform.GetChild(0).gameObject.GetComponent<SpriteRenderer>().color = Color.white;
         }
+    }
+    void ClearColorOfSelected()
+    {
+        GetCurrent().gameObject.GetComponent<SpriteRenderer>().color = Color.white;
+        if (GetCurrent().transform.childCount > 0)
+        {
+            GetCurrent().gameObject.transform.GetChild(0).gameObject.GetComponent<SpriteRenderer>().color = Color.white;
+        }
+    }
+
+    void ChangeSelectedColor()
+    {
+        GetCurrent().gameObject.GetComponent<SpriteRenderer>().color = selectColor;
     }
 
     void OnCollisionEnter2D(Collision2D coll)
