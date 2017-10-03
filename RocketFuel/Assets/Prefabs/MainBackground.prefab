@@ -143,7 +143,7 @@ BoxCollider2D:
   m_Enabled: 1
   m_Density: 1
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
@@ -170,6 +170,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cfb338b0c146a5642b2eac02475f8b6d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_offsetMinMax: {x: 0, y: 0}
 --- !u!114 &114630442813141526
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -181,6 +182,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cfb338b0c146a5642b2eac02475f8b6d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_offsetMinMax: {x: 0, y: 0}
 --- !u!114 &114643059163370514
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -192,6 +194,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cfb338b0c146a5642b2eac02475f8b6d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_offsetMinMax: {x: 0, y: 0}
 --- !u!212 &212390624547443402
 SpriteRenderer:
   m_ObjectHideFlags: 1

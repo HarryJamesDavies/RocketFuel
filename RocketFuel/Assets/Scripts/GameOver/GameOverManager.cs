@@ -56,6 +56,7 @@ public class GameOverManager : MonoBehaviour
     private IEnumerator MoveToStartScreen()
     {
         yield return new WaitForSeconds(m_moveTime);
+        GlobalEventBoard.Instance.AddEvent(Events.Event.GLO_EnterMenu);
         SceneManager.LoadScene(m_startSceneName);
     }
 
