@@ -44,7 +44,7 @@ public class PullableBlock : MonoBehaviour
         m_lerpTime = 0f;
         //m_spriteRenderer = GetComponent<SpriteRenderer>();
         //m_spriteRenderer.sprite = m_sprites[(int)m_pullType];
-        //StartCoroutine(DelaySpawn()); //test function call leave commmented
+        StartCoroutine(DelaySpawn()); //test function call leave commmented
     }
 
     // Update is called once per frame
@@ -84,7 +84,8 @@ public class PullableBlock : MonoBehaviour
             //m_clone.GetComponent<SpriteRenderer>().sprite = m_sprites[5];
             Destroy(m_clone.GetComponent<PullableBlock>());
             m_clone.transform.parent = gameObject.transform;
-            m_particle = (GameObject)Instantiate(m_particlePrefab, transform.position, Quaternion.identity);
+            Vector3 t_particlePos = transform.position + Vector3.back;
+            m_particle = (GameObject)Instantiate(m_particlePrefab, t_particlePos, Quaternion.identity);
             m_particle.transform.parent = m_clone.transform;
         }
     }
