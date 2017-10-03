@@ -11,3 +11,9 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/_Scenes/GameOverScene.unity
     guid: 3dab9438f6441ae4f9ffc511d2d1f35c
+  - enabled: 0
+    path: Assets/_Scenes/Harry.unity
+    guid: cd3787e3f36d85540a329e3083fd5e10
+  - enabled: 1
+    path: Assets/_Scenes/Main.unity
+    guid: 1924ad760ca33f942a8c094468b8b083

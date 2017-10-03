@@ -62,7 +62,7 @@ public class GameOverManager : MonoBehaviour
 
     public void UpdateDistanceText(int _distance)
     {
-        m_distanceText.text = "You Reached: " + _distance + "M";
+        m_distanceText.text = "You Reached: " + GameManager.Instance.m_score + "M";
     }
 
     private void GameOverFlash()

@@ -13,9 +13,11 @@ public class GameManager : MonoBehaviour
 
     public int m_score;
     public Text m_scoreText;
-    public Transform m_player;
+
+    public GameObject m_player;
 
     private bool m_active = false;
+    private bool m_enteredPlayMode = false;
 
     void Awake ()
     {
@@ -37,6 +39,11 @@ public class GameManager : MonoBehaviour
                 m_fps.gameObject.SetActive(m_useFps);
             }
 
+            if(SceneManager.GetActiveScene().name == "Harry")
+            {
+                m_enteredPlayMode = true;
+            }
+
             DontDestroyOnLoad(gameObject);
         }
 	}
@@ -55,10 +62,16 @@ public class GameManager : MonoBehaviour
         GlobalEventBoard.Instance.UnsubscribeToEvent(Events.Event.GLO_PlayerDied, Ev_DeathHandler);
         GlobalEventBoard.Instance.UnsubscribeToEvent(Events.Event.GLO_EnterMenu, Ev_EnterMenu);
         GlobalEventBoard.Instance.UnsubscribeToEvent(Events.Event.GLO_EnterPlay, Ev_EnterPlay);
-    }
+    } 
 
     void Update()
     {
+        if(m_enteredPlayMode)
+        {
+            m_player = GameObject.FindGameObjectWithTag("Player");
+            m_enteredPlayMode = false;
+        }
+
         if (Input.GetKeyDown(KeyCode.Escape))
         {
             Application.Quit();
@@ -71,14 +84,14 @@ public class GameManager : MonoBehaviour
 
         if (m_active)
         {
-            m_scoreText.text = "" + (int)m_player.position.y;
+            m_scoreText.text = "" + (int)m_player.transform.position.y;
         }
     }
 
     public void Ev_WinHandler(object _data = null)
     {
         m_active = false;
-        m_score = (int)m_player.position.y;
+        m_score = (int)m_player.transform.position.y;
         Debug.Log("Player Wins!");
         SceneManager.LoadScene("GameOverScene");
     }
@@ -86,7 +99,7 @@ public class GameManager : MonoBehaviour
     public void Ev_DeathHandler(object _data = null)
     {
         m_active = false;
-        m_score = (int)m_player.position.y;
+        m_score = (int)m_player.transform.position.y;
         Debug.Log("Player Dead! \nScore: " + m_score);
         SceneManager.LoadScene("GameOverScene");
     }
@@ -94,6 +107,9 @@ public class GameManager : MonoBehaviour
     public void Ev_EnterPlay(object _data = null)
     {
         m_active = true;
+        m_score = 0;
+        SceneManager.LoadScene("Main");
+        m_enteredPlayMode = true;
     }
 
     public void Ev_EnterMenu(object _data = null)

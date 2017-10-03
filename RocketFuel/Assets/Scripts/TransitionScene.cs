@@ -1,16 +1,22 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Rewired;
 
-public class TransitionScene : MonoBehaviour {
+public class TransitionScene : MonoBehaviour
+{
+    private Player m_player = null;
 
-	// Use this for initialization
-	void Start () {
-		
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		
+    private void Start()
+    {
+        m_player = ReInput.players.GetPlayer(0);
+    }
+
+	void Update ()
+    {
+		if(m_player.GetAnyButton())
+        {
+            GlobalEventBoard.Instance.AddEvent(Events.Event.GLO_EnterPlay);
+        }
 	}
 }
