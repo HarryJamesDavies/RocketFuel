@@ -35,17 +35,18 @@ public class GlobalEventBoard : MonoBehaviour
         else
         {
             Instance = this;
-        }
+            DontDestroyOnLoad(gameObject);
 
-        if (m_eventList.Count == 0)
-        {
-            for (int i = 0; i <= (int)Events.Event.Count - 1; i++)
+            if (m_eventList.Count == 0)
             {
-                EventList tempList = new EventList();
-                tempList.m_eventType = (Events.Event)i;
-                tempList.m_eventTrigger = null;
+                for (int i = 0; i <= (int)Events.Event.Count - 1; i++)
+                {
+                    EventList tempList = new EventList();
+                    tempList.m_eventType = (Events.Event)i;
+                    tempList.m_eventTrigger = null;
 
-                m_eventList.Add(tempList);
+                    m_eventList.Add(tempList);
+                }
             }
         }
     }
