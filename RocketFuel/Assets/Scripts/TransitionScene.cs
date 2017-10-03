@@ -14,7 +14,7 @@ public class TransitionScene : MonoBehaviour
 
 	void Update ()
     {
-		if(m_player.GetAnyButton())
+		if(m_player.GetAnyButtonDown())
         {
             GlobalEventBoard.Instance.AddEvent(Events.Event.GLO_EnterPlay);
         }
