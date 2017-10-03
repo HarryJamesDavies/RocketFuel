@@ -23,7 +23,7 @@ public class Background : MonoBehaviour
     {
         yield return new WaitForSeconds(m_delay);
         _background.transform.position += new Vector3(0f, m_offset, 0f);
-        print("new position: " + _background.transform.position);
+        //print("new position: " + _background.transform.position);
         for (int i = 0; i < _background.transform.childCount; i++)
         {
             if (_background.transform.GetChild(i).gameObject.GetComponent<BackgroundRandomiser>())

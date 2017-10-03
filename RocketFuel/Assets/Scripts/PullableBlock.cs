@@ -32,7 +32,8 @@ public class PullableBlock : MonoBehaviour
 
     private Vector3 m_targetPosition;
 
-    private bool m_hasMoved;
+    private AudioSource m_audioSource;
+    public AudioClip m_sfx;
 
     //private SpriteRenderer m_spriteRenderer;
 
@@ -41,6 +42,7 @@ public class PullableBlock : MonoBehaviour
     // Use this for initialization
     private void Start()
     {
+        m_audioSource = GetComponent<AudioSource>();
         m_clonePrefab = gameObject;
         m_minAngle = -m_maxAngle;
         m_lerpTime = 0f;
@@ -80,14 +82,18 @@ public class PullableBlock : MonoBehaviour
     {
         if (!m_clone)
         {
+            m_audioSource.PlayOneShot(m_sfx, 1.0f);
             Vector3 t_position = transform.position;
             m_targetPosition = GetNewPosition(t_position);
             m_clone = (GameObject)Instantiate(m_clonePrefab, transform.position, Quaternion.identity);
+            m_clone.tag = "Ground";
             //m_clone.GetComponent<SpriteRenderer>().sprite = m_sprites[5];
             Destroy(m_clone.GetComponent<PullableBlock>());
             m_clone.transform.parent = gameObject.transform;
-            m_particle = (GameObject)Instantiate(m_particlePrefab, transform.position, Quaternion.identity);
+            Vector3 t_particlePos = transform.position + Vector3.back;
+            m_particle = (GameObject)Instantiate(m_particlePrefab, t_particlePos, Quaternion.identity);
             m_particle.transform.parent = m_clone.transform;
+            gameObject.tag = "Ground";
         }
     }
 

@@ -1017,6 +1017,7 @@ MonoBehaviour:
   m_fps: {fileID: 1293790307}
   m_score: 0
   m_scoreText: {fileID: 747256520}
+  m_player: {fileID: 0}
 --- !u!4 &1924787152
 Transform:
   m_ObjectHideFlags: 0

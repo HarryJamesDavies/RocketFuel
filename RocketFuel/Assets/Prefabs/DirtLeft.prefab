@@ -26,7 +26,7 @@ GameObject:
   - component: {fileID: 114326615925721938}
   m_Layer: 0
   m_Name: DirtLeft
-  m_TagString: Untagged
+  m_TagString: Manip
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -125,6 +125,7 @@ MonoBehaviour:
   m_particleDelay: 1.5
   m_maxAngle: 2
   m_smoothness: 50
+  m_sfx: {fileID: 0}
 --- !u!212 &212410700924093344
 SpriteRenderer:
   m_ObjectHideFlags: 1

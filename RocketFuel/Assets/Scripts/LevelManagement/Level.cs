@@ -51,7 +51,7 @@ public class Level : MonoBehaviour
             }
         }
 
-        public void SpawnLava(GameObject _lava)
+        public void SpawnLava(GameObject _lava, float _lavaModifier)
         {
             for (int y = 0; y <= Height; y++)
             {
@@ -64,6 +64,7 @@ public class Level : MonoBehaviour
                         Vector3 pos = new Vector3(Origin.x + (CellWidth * x) + (CellWidth / 2.0f),
                             Origin.y + (CellHeight * y) + (CellHeight / 2.0f), 0.0f);
                         Grid[x, y] = Instantiate(_lava, pos, Quaternion.identity);
+                        Grid[x, y].GetComponent<CreepingLava>().m_wait = _lavaModifier;
                         Grid[x, y].transform.SetParent(Holder);
                         Grid[x, y].GetComponent<CellData>().Initialise(Index, new GridCoordinates(x, y), CellData.CellContent.Liquid);
 
@@ -163,6 +164,25 @@ public class Level : MonoBehaviour
     private float m_cellWidth;
     private float m_cellHeight;
     private Vector3 m_nextOrigin;
+    private float m_lavaModifier = 0.7f;
+
+    void Start()
+    {
+        GlobalEventBoard.Instance.SubscribeToEvent(Events.Event.LEV_TransitionSection, Ev_NextLevel);
+    }
+
+    void OnDestroy()
+    {
+        GlobalEventBoard.Instance.UnsubscribeToEvent(Events.Event.LEV_TransitionSection, Ev_NextLevel);
+    }
+
+    private void Ev_NextLevel(object _data = null)
+    {
+        if(m_lavaModifier != 0.2f)
+        {
+            m_lavaModifier -= 0.1f;
+        }
+    }
 
     public void TransitionSection()
     {
@@ -470,11 +490,11 @@ public class Level : MonoBehaviour
     {
         if (m_currentBuffer)
         {
-            m_sectionA.SpawnLava(m_lavaTemplate);
+            m_sectionA.SpawnLava(m_lavaTemplate, m_lavaModifier);
         }
         else
         {
-            m_sectionB.SpawnLava(m_lavaTemplate);
+            m_sectionB.SpawnLava(m_lavaTemplate, m_lavaModifier);
         }
     }
 }

@@ -379,8 +379,10 @@ GameObject:
   - component: {fileID: 927211456}
   - component: {fileID: 927211460}
   - component: {fileID: 927211459}
+  - component: {fileID: 927211461}
+  - component: {fileID: 927211462}
   m_Layer: 0
-  m_Name: TempPlayer
+  m_Name: Player
   m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -438,7 +440,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 68d7a7ceeabae5d428e2f5fd3e1084c7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_speed: 1.5
 --- !u!4 &927211458
 Transform:
   m_ObjectHideFlags: 0
@@ -491,12 +492,38 @@ Rigidbody2D:
   m_Mass: 1
   m_LinearDrag: 5
   m_AngularDrag: 0.05
-  m_GravityScale: 1
+  m_GravityScale: 3
   m_Material: {fileID: 0}
   m_Interpolate: 1
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 4
+--- !u!114 &927211461
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 927211455}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cb57aa95a93a94d4e8d62c3cb417479d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_moveSpeed: 1
+  m_jumpSpeed: 25
+--- !u!114 &927211462
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 927211455}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7a592ab8ac4557d4297dcac8116e86bb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_minimumDistance: 7
+  m_highlightColour: {r: 0, g: 1, b: 0, a: 1}
 --- !u!1001 &1090618168
 Prefab:
   m_ObjectHideFlags: 0
@@ -940,15 +967,12 @@ MonoBehaviour:
     Entrances: 01000000
     Exits: 000000000100000002000000
   m_chunkData:
-  - Texture: {fileID: 2800000, guid: 2a4eeb60e9ef75f4a8093c1d10f0d869, type: 3}
+  - Texture: {fileID: 2800000, guid: 1b6ef90b8780753468db3d625e087316, type: 3}
     Entrances: 000000000100000002000000
     Exits: 000000000100000002000000
-  - Texture: {fileID: 2800000, guid: 1b6ef90b8780753468db3d625e087316, type: 3}
-    Entrances: 01000000
-    Exits: 0000000002000000
   - Texture: {fileID: 2800000, guid: ed47a16d9c4377a43a053c6cc5bbeef1, type: 3}
-    Entrances: 0000000002000000
-    Exits: 0000000002000000
+    Entrances: 000000000200000002000000
+    Exits: 000000000200000002000000
   m_lavaTemplate: {fileID: 1909572157859058, guid: 84ddb6adf0d5b194a9192f0a08d88684,
     type: 2}
   m_defaultTemplate: {fileID: 1422402640623636, guid: 151fcca234867784f878a92668f83662,
@@ -956,6 +980,8 @@ MonoBehaviour:
   m_cellTemplates:
   - Identifier: {r: 0, g: 0, b: 0, a: 1}
     Prefab: {fileID: 1925127399543990, guid: ba36a76e7d803a24385d281f413d3f98, type: 2}
+  - Identifier: {r: 0.5882353, g: 0.5882353, b: 0.5882353, a: 1}
+    Prefab: {fileID: 1357773156143046, guid: 51253b1e09bdabb40abbc97ff452e8b2, type: 2}
   - Identifier: {r: 1, g: 0.84705883, b: 0, a: 1}
     Prefab: {fileID: 1227685008536416, guid: b80c1de59acbce643b96650056e00b5b, type: 2}
   - Identifier: {r: 0.29803923, g: 1, b: 0, a: 1}
