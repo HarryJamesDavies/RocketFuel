@@ -22,8 +22,6 @@ public class Background : MonoBehaviour
     private IEnumerator MoveBackground(GameObject _background)
     {
         yield return new WaitForSeconds(m_delay);
-        print(_background.name);
-        print("position: " + _background.transform.position);
         _background.transform.position += new Vector3(0f, m_offset, 0f);
         print("new position: " + _background.transform.position);
         for (int i = 0; i < _background.transform.childCount; i++)

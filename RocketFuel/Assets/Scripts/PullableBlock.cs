@@ -48,7 +48,7 @@ public class PullableBlock : MonoBehaviour
         m_lerpTime = 0f;
         //m_spriteRenderer = GetComponent<SpriteRenderer>();
         //m_spriteRenderer.sprite = m_sprites[(int)m_pullType];
-        StartCoroutine(DelaySpawn()); //test function call leave commmented
+        //StartCoroutine(DelaySpawn()); //test function call leave commmented
     }
 
     // Update is called once per frame
