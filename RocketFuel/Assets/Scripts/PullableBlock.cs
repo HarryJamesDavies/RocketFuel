@@ -32,6 +32,8 @@ public class PullableBlock : MonoBehaviour
 
     private Vector3 m_targetPosition;
 
+    private bool m_hasMoved;
+
     //private SpriteRenderer m_spriteRenderer;
 
     //public Sprite[] m_sprites;
