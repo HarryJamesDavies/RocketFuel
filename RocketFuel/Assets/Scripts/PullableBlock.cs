@@ -48,7 +48,7 @@ public class PullableBlock : MonoBehaviour
         m_lerpTime = 0f;
         //m_spriteRenderer = GetComponent<SpriteRenderer>();
         //m_spriteRenderer.sprite = m_sprites[(int)m_pullType];
-        //StartCoroutine(DelaySpawn()); //test function call leave commmented
+        //StartCoroutine(DelaySpawn());
     }
 
     // Update is called once per frame
@@ -56,6 +56,7 @@ public class PullableBlock : MonoBehaviour
     {
         if (m_clone && Distance(m_clone.transform.position, m_targetPosition) > 0.01f)
         {
+            //DebugCanvas.m_instance.UpdateText("moving");
             m_clone.transform.position = Vector3.MoveTowards(m_clone.transform.position, m_targetPosition, Time.deltaTime * m_moveSpeed);
             float t_angle = Mathf.Lerp(m_minAngle, m_maxAngle, m_lerpTime);
             m_clone.transform.eulerAngles = new Vector3(0f, 0f, t_angle);
@@ -73,6 +74,7 @@ public class PullableBlock : MonoBehaviour
         {
             if (m_clone.transform.rotation != Quaternion.identity)
             {
+                //DebugCanvas.m_instance.UpdateText("in pos");
                 m_clone.transform.rotation = Quaternion.identity;
             }
         }
@@ -82,16 +84,18 @@ public class PullableBlock : MonoBehaviour
     {
         if (!m_clone)
         {
-            m_audioSource.PlayOneShot(m_sfx, 1.0f);
+            //m_audioSource.PlayOneShot(m_sfx, 1.0f);
             Vector3 t_position = transform.position;
             m_targetPosition = GetNewPosition(t_position);
             m_clone = (GameObject)Instantiate(m_clonePrefab, transform.position, Quaternion.identity);
+            //DebugCanvas.m_instance.UpdateText("clone: " + m_clone.name);
             m_clone.tag = "Ground";
             //m_clone.GetComponent<SpriteRenderer>().sprite = m_sprites[5];
             Destroy(m_clone.GetComponent<PullableBlock>());
             m_clone.transform.parent = gameObject.transform;
-            Vector3 t_particlePos = transform.position + Vector3.back;
+            Vector3 t_particlePos = transform.position;
             m_particle = (GameObject)Instantiate(m_particlePrefab, t_particlePos, Quaternion.identity);
+
             m_particle.transform.parent = m_clone.transform;
             gameObject.tag = "Ground";
         }

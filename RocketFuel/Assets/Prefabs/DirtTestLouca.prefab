@@ -23,6 +23,7 @@ GameObject:
   - component: {fileID: 50779590268755538}
   - component: {fileID: 61462730577727636}
   - component: {fileID: 114737050756769360}
+  - component: {fileID: 114372441266307922}
   m_Layer: 0
   m_Name: DirtTestLouca
   m_TagString: Ground
@@ -88,6 +89,27 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 0.8, y: 0.8}
   m_EdgeRadius: 0
+--- !u!114 &114372441266307922
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1925127399543990}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: deea7eee9cdd06a4d9ab8555ba97d5bc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_pullType: 0
+  m_particlePrefab: {fileID: 1569443109489146, guid: be6cb2db41410d74a8b9b603c3c6c027,
+    type: 2}
+  m_offset: 0.5
+  m_moveSpeed: 0.5
+  m_delay: 5
+  m_particleDelay: 1.5
+  m_maxAngle: 2
+  m_smoothness: 50
+  m_sfx: {fileID: 0}
 --- !u!114 &114737050756769360
 MonoBehaviour:
   m_ObjectHideFlags: 1

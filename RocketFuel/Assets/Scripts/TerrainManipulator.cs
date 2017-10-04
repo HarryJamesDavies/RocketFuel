@@ -28,7 +28,7 @@ public class TerrainManipulator : MonoBehaviour
 
     private Player m_player;
 
-    void Start ()
+    private void Start()
     {
         GlobalEventBoard.Instance.SubscribeToEvent(Events.Event.LEV_TransitionSection, GetAllTargets);
 
@@ -37,19 +37,18 @@ public class TerrainManipulator : MonoBehaviour
         GetAllTargets();
     }
 
-    void OnDestroy()
+    private void OnDestroy()
     {
         GlobalEventBoard.Instance.UnsubscribeToEvent(Events.Event.LEV_TransitionSection, GetAllTargets);
     }
 
-    void GetAllTargets(object _data = null)
+    private void GetAllTargets(object _data = null)
     {
         m_allTargets.Clear();
         m_allTargets = GameObject.FindGameObjectsWithTag("Manip").ToList();
     }
 
-
-    void Update ()
+    private void Update()
     {
         GetInRangeTargets();
 
@@ -66,7 +65,7 @@ public class TerrainManipulator : MonoBehaviour
         }
     }
 
-    void GetInRangeTargets()
+    private void GetInRangeTargets()
     {
         List<TargetData> inRangeTargets = new List<TargetData>();
 
@@ -87,13 +86,13 @@ public class TerrainManipulator : MonoBehaviour
         inRangeTargets = inRangeTargets.OrderBy(x => Vector2.Distance(transform.position, x.Target.transform.position)).ToList();
 
         m_reorderedIndicies.Clear();
-        foreach(TargetData data in inRangeTargets)
+        foreach (TargetData data in inRangeTargets)
         {
             m_reorderedIndicies.Add(data.Index);
         }
     }
 
-    void ScrollTargets()
+    private void ScrollTargets()
     {
         if (m_player.GetButtonDown("Target Lock Scroll Right"))
         {
@@ -105,7 +104,7 @@ public class TerrainManipulator : MonoBehaviour
         }
     }
 
-    int LoopTargetIndex(int _index)
+    private int LoopTargetIndex(int _index)
     {
         if (m_reorderedIndicies != null)
         {
@@ -124,21 +123,21 @@ public class TerrainManipulator : MonoBehaviour
         return _index;
     }
 
-    void GetNext()
+    private void GetNext()
     {
         m_currentIndex = LoopTargetIndex(++m_currentIndex);
     }
 
-    void GetPrev()
+    private void GetPrev()
     {
         m_currentIndex = LoopTargetIndex(--m_currentIndex);
     }
 
-    void HighlightCurrent()
+    private void HighlightCurrent()
     {
-        if(m_prevTarget)
+        if (m_prevTarget)
         {
-            if(m_prevTarget != m_allTargets[m_reorderedIndicies[m_currentIndex]])
+            if (m_prevTarget != m_allTargets[m_reorderedIndicies[m_currentIndex]])
             {
                 m_prevTarget.GetComponent<SpriteRenderer>().color = Color.white;
                 m_allTargets[m_reorderedIndicies[m_currentIndex]].GetComponent<SpriteRenderer>().color = m_highlightColour;
@@ -152,7 +151,7 @@ public class TerrainManipulator : MonoBehaviour
         }
     }
 
-    void HighlightAllInRange()
+    private void HighlightAllInRange()
     {
         foreach (GameObject target in m_allTargets)
         {
@@ -165,7 +164,7 @@ public class TerrainManipulator : MonoBehaviour
         }
     }
 
-    void ManipulateCurrentTarget()
+    private void ManipulateCurrentTarget()
     {
         if (m_player.GetButtonDown("Powers"))
         {
