@@ -75,6 +75,30 @@ public class GridCoordinates
         Y = _y;
     }
 
+    public GridCoordinates GetDirection(Direction.Directions _direction)
+    {
+        switch(_direction)
+        {
+            case Direction.Directions.Up:
+                {
+                    return GetUp();
+                }
+            case Direction.Directions.Right:
+                {
+                    return GetRight();
+                }
+            case Direction.Directions.Down:
+                {
+                    return GetDown();
+                }
+            case Direction.Directions.Left:
+                {
+                    return GetLeft();
+                }
+        }
+        return null;
+    }
+
     public GridCoordinates GetUp()
     {
         if (Up == null)

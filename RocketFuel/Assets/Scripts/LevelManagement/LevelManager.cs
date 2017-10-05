@@ -94,13 +94,18 @@ public class LevelManager : MonoBehaviour
         return m_level.m_sectionsGenerated == m_sections;
     }
 
-    public bool CheckCellFilled(int _sectionIndex, GridCoordinates _coords)
+    public CellData.CellContent CheckCellContent(GridCoordinates _coords)
     {
-        return m_level.CheckCellFilled(_sectionIndex, _coords);
+        return m_level.CheckCellContent(_coords);
     }
 
-    public void AddLava(int _sectionIndex, GridCoordinates _coords)
+    public CellData.CellContent CheckCellContent(int _sectionIndex, GridCoordinates _coords)
     {
-        m_level.AddLava(_sectionIndex, _coords);
+        return m_level.CheckCellContent(_sectionIndex, _coords);
+    }
+
+    public void OverrideCell(int _sectionIndex, GameObject _cell, GridCoordinates _coords)
+    {
+        m_level.OverrideCell(_sectionIndex, _cell, _coords);
     }
 }

@@ -4,126 +4,6 @@ using UnityEngine;
 
 public class Level : MonoBehaviour
 {
-    [Serializable]
-    public class Section
-    {
-        public Section(int _index, int _width, int _height, GameObject[,] _content, Transform _parent)
-        {
-            Index = _index;
-            Grid = _content;
-            Width = _width - 1;
-            Height = _height - 1;
-            Holder = new GameObject("Section " + _index + " Holder: ").transform;
-            Holder.SetParent(_parent);
-
-            SpawnGrid = new bool[_width, _height];
-            for (int y = 0; y <= Height; y++)
-            {
-                for (int x = 0; x <= Width; x++)
-                {
-                    SpawnGrid[x, y] = false;
-                }
-            }
-        }
-
-        /// <summary>
-        /// Instantiates cells based on Grid data
-        /// </summary>
-        /// <param name="_cellWidth"></param>
-        /// <param name="_cellHeight"></param>
-        /// <param name="_origin"></param>
-        public void SpawnSection(float _cellWidth, float _cellHeight, Vector3 _origin)
-        {
-            CellWidth = _cellWidth;
-            CellHeight = _cellHeight;
-            Origin = _origin;
-
-            for (int y = 0; y <= Height; y++)
-            {
-                for (int x = 0; x <= Width; x++)
-                {
-                    Vector3 pos = new Vector3(Origin.x + (CellWidth * x) + (CellWidth / 2.0f),
-                        Origin.y + (CellHeight * y) + (CellHeight / 2.0f), 0.0f);
-                    Grid[x, y] = Instantiate(Grid[x, y], pos, Quaternion.identity);
-                    Grid[x, y].transform.SetParent(Holder);
-                    Grid[x, y].GetComponent<CellData>().Initialise(Index, new GridCoordinates(x, y));
-                }
-            }
-        }
-
-        public void SpawnLava(GameObject _lava, float _lavaModifier)
-        {
-            for (int y = 0; y <= Height; y++)
-            {
-                for (int x = 0; x <= Width; x++)
-                {
-                    if(SpawnGrid[x, y])
-                    {
-                        Destroy(Grid[x, y]);
-
-                        Vector3 pos = new Vector3(Origin.x + (CellWidth * x) + (CellWidth / 2.0f),
-                            Origin.y + (CellHeight * y) + (CellHeight / 2.0f), 0.0f);
-                        Grid[x, y] = Instantiate(_lava, pos, Quaternion.identity);
-                        Grid[x, y].GetComponent<CreepingLava>().m_wait = _lavaModifier;
-                        Grid[x, y].transform.SetParent(Holder);
-                        Grid[x, y].GetComponent<CellData>().Initialise(Index, new GridCoordinates(x, y), CellData.CellContent.Liquid);
-
-                        SpawnGrid[x, y] = false;
-                    }
-                }
-            }
-        }
-
-        /// <summary>
-        /// Deletes GameObjects contained in Grid
-        /// </summary>
-        public void ClearGrid()
-        {
-            Width = 0;
-            Height = 0;
-
-            for (int y = 0; y <= Height; y++)
-            {
-                for (int x = 0; x <= Width; x++)
-                {
-                    Destroy(Grid[x, y]);
-                }
-            }
-
-            for (int y = 0; y <= Height; y++)
-            {
-                for (int x = 0; x <= Width; x++)
-                {
-                    SpawnGrid[x, y] = false;
-                }
-            }
-
-            Destroy(Holder.gameObject);
-        }
-
-        public bool CheckCellFilled(GridCoordinates _coords)
-        {
-            return (CellData.CellContent.Air != Grid[_coords.X, _coords.Y].GetComponent<CellData>().m_content);
-        }
-
-        public void AddLava(GridCoordinates _coords)
-        {
-            SpawnGrid[_coords.X, _coords.Y] = true;
-        }
-
-        public GameObject[,] Grid;
-        public bool[,] SpawnGrid;
-
-        public int Index;
-        public int Width;
-        public int Height;
-
-        private Transform Holder;
-        private float CellWidth;
-        private float CellHeight;
-        private Vector3 Origin;
-    }
-
     public enum Openings
     {
         Left,
@@ -156,33 +36,14 @@ public class Level : MonoBehaviour
     public List<Cell> m_cellTemplates;
 
     private bool m_currentBuffer = true;
-    private Section m_sectionA;
-    private Section m_sectionB;
+    private Grid m_sectionA;
+    private Grid m_sectionB;
     public int m_sectionsGenerated = -1;
 
     private int m_chunks;
     private float m_cellWidth;
     private float m_cellHeight;
     private Vector3 m_nextOrigin;
-    private float m_lavaModifier = 0.7f;
-
-    void Start()
-    {
-        GlobalEventBoard.Instance.SubscribeToEvent(Events.Event.LEV_TransitionSection, Ev_NextLevel);
-    }
-
-    void OnDestroy()
-    {
-        GlobalEventBoard.Instance.UnsubscribeToEvent(Events.Event.LEV_TransitionSection, Ev_NextLevel);
-    }
-
-    private void Ev_NextLevel(object _data = null)
-    {
-        if(m_lavaModifier != 0.2f)
-        {
-            m_lavaModifier -= 0.1f;
-        }
-    }
 
     public void TransitionSection()
     {
@@ -254,7 +115,7 @@ public class Level : MonoBehaviour
     /// </summary>
     /// <param name="_chunk"></param>
     /// <returns></returns>
-    private Section GenerateSection(Texture2D _chunk)
+    private Grid GenerateSection(Texture2D _chunk)
     {
         int width = _chunk.width;
         int height = _chunk.height;
@@ -271,7 +132,9 @@ public class Level : MonoBehaviour
         }
 
         m_sectionsGenerated++;
-        return new Section(m_sectionsGenerated, width, height, grid, transform);
+        Grid temp = ScriptableObject.CreateInstance<Grid>();
+        temp.Init(m_sectionsGenerated, width, height, grid, transform);
+        return temp;
     }
 
     /// <summary>
@@ -279,7 +142,7 @@ public class Level : MonoBehaviour
     /// </summary>
     /// <param name="_chunks"></param>
     /// <returns></returns>
-    private Section GenerateSection(List<Texture2D> _chunks)
+    private Grid GenerateSection(List<Texture2D> _chunks)
     {
         int width = 0;
         int height = 0;
@@ -315,7 +178,9 @@ public class Level : MonoBehaviour
         }
 
         m_sectionsGenerated++;
-        return new Section(m_sectionsGenerated, width, height, grid, transform);
+        Grid temp = ScriptableObject.CreateInstance<Grid>();
+        temp.Init(m_sectionsGenerated, width, height, grid, transform);
+        return temp;
     }
 
     /// <summary>
@@ -449,52 +314,55 @@ public class Level : MonoBehaviour
         return false;
     }
 
-    public bool CheckCellFilled(int _sectionIndex, GridCoordinates _coords)
+    public CellData.CellContent CheckCellContent(GridCoordinates _coords)
     {
-        if (m_sectionA.Index == _sectionIndex)
+        if(m_currentBuffer)
         {
             if (_coords.CheckValidCoords(m_sectionA.Width - 1, m_sectionA.Height - 1))
             {
-                return m_sectionA.CheckCellFilled(_coords);
+                return m_sectionA.CheckCellContent(_coords);
             }
         }
         else
         {
             if (_coords.CheckValidCoords(m_sectionB.Width - 1, m_sectionB.Height - 1))
             {
-                return m_sectionB.CheckCellFilled(_coords);
+                return m_sectionB.CheckCellContent(_coords);
             }
         }
-        return true;
+
+        return CellData.CellContent.Solid;
     }
 
-    public void AddLava(int _sectionIndex, GridCoordinates _coords)
+    public CellData.CellContent CheckCellContent(int _sectionIndex, GridCoordinates _coords)
     {
         if (m_sectionA.Index == _sectionIndex)
         {
             if (_coords.CheckValidCoords(m_sectionA.Width - 1, m_sectionA.Height - 1))
             {
-                m_sectionA.AddLava(_coords);
+                return m_sectionA.CheckCellContent(_coords);
             }
         }
         else
         {
             if (_coords.CheckValidCoords(m_sectionB.Width - 1, m_sectionB.Height - 1))
             {
-                m_sectionB.AddLava(_coords);
+                return m_sectionB.CheckCellContent(_coords);
             }
         }
+
+        return CellData.CellContent.Solid;
     }
 
-    void LateUpdate()
+    public void OverrideCell(int _sectionIndex, GameObject _cell, GridCoordinates _coords)
     {
-        if (m_currentBuffer)
+        if (m_sectionA.Index == _sectionIndex)
         {
-            m_sectionA.SpawnLava(m_lavaTemplate, m_lavaModifier);
+            m_sectionA.OverrideCell(_cell, _coords);
         }
         else
         {
-            m_sectionB.SpawnLava(m_lavaTemplate, m_lavaModifier);
+            m_sectionB.OverrideCell(_cell, _coords);
         }
     }
 }
