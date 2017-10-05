@@ -52,10 +52,10 @@ public class CreepingLava : MonoBehaviour
 
         public void CheckUnchecked(int _sectionIndex, GridCoordinates _coords)
         {
-            Up = BoolToState(LevelManager.Instance.CheckCellFilled(_sectionIndex, _coords.GetUp()));
-            Right = BoolToState(LevelManager.Instance.CheckCellFilled(_sectionIndex, _coords.GetRight()));
-            Down = BoolToState(LevelManager.Instance.CheckCellFilled(_sectionIndex, _coords.GetDown()));
-            Left = BoolToState(LevelManager.Instance.CheckCellFilled(_sectionIndex, _coords.GetLeft()));
+            Up = ContentToState(LevelManager.Instance.CheckCellContent(_sectionIndex, _coords.GetUp()));
+            Right = ContentToState(LevelManager.Instance.CheckCellContent(_sectionIndex, _coords.GetRight()));
+            Down = ContentToState(LevelManager.Instance.CheckCellContent(_sectionIndex, _coords.GetDown()));
+            Left = ContentToState(LevelManager.Instance.CheckCellContent(_sectionIndex, _coords.GetLeft()));
 
             GeneratePriorityList(_coords);
         }
@@ -87,9 +87,9 @@ public class CreepingLava : MonoBehaviour
             }
         }
 
-        private CellState BoolToState(bool _state)
+        private CellState ContentToState(CellData.CellContent _content)
         {
-            if(_state)
+            if (_content == CellData.CellContent.Solid || _content == CellData.CellContent.Liquid)
             {
                 return CellState.Filled;
             }
@@ -154,17 +154,17 @@ public class CreepingLava : MonoBehaviour
 
     private void SpawnAdjacentCell()
     {
-        DirectionData data = m_traversableDirections.GetPriority();
-        if (data != null)
-        {
-            LevelManager.Instance.AddLava(m_data.m_sectionIndex, data.Coords);
+        //DirectionData data = m_traversableDirections.GetPriority();
+        //if (data != null)
+        //{
+        //    LevelManager.Instance.AddLava(m_data.m_sectionIndex, data.Coords);
 
-            if (data.Direction == Direction.Left && m_traversableDirections.PeekPriorityDirection() == Direction.Right)
-            {
-                data = m_traversableDirections.GetPriority();
-                LevelManager.Instance.AddLava(m_data.m_sectionIndex, data.Coords);
-            }
-        }
+        //    if (data.Direction == Direction.Left && m_traversableDirections.PeekPriorityDirection() == Direction.Right)
+        //    {
+        //        data = m_traversableDirections.GetPriority();
+        //        LevelManager.Instance.AddLava(m_data.m_sectionIndex, data.Coords);
+        //    }
+        //}
     }
 
     private void CheckSurrounded()
