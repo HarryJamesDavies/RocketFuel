@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Lava : Liquid
+public class LiquidSource : Liquid
 {
     protected bool m_spreadComplete = false;
     protected bool m_processing = false;
@@ -23,7 +23,7 @@ public class Lava : Liquid
             m_firstFrame = false;
             m_traversableDirections.CheckUnchecked(m_data.m_sectionIndex, m_data.m_coords);
 
-            if (m_data.m_sectionIndex != LevelManager.Instance.GetCurrentSectionIndex())
+            if(m_data.m_sectionIndex != LevelManager.Instance.GetCurrentSectionIndex())
             {
                 m_spreadComplete = true;
             }
@@ -49,14 +49,6 @@ public class Lava : Liquid
             {
                 m_spreadComplete = true;
             }
-        }
-    }
-
-    void OnTriggerEnter2D(Collider2D _other)
-    {
-        if(_other.tag == "Player")
-        {
-            GlobalEventBoard.Instance.AddEvent(Events.Event.GLO_PlayerDied);
         }
     }
 }

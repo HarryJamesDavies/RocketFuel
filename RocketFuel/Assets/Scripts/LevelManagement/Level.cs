@@ -31,7 +31,6 @@ public class Level : MonoBehaviour
     public List<Chunk> m_separators;
     public List<Chunk> m_chunkData;
 
-    public GameObject m_lavaTemplate;
     public GameObject m_defaultTemplate;
     public List<Cell> m_cellTemplates;
 

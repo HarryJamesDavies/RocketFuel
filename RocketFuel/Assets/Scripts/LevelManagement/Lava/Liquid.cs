@@ -151,7 +151,7 @@ public class Liquid : MonoBehaviour
     public TraversableDirections m_traversableDirections = new TraversableDirections();
     protected CellData m_data = null;
 
-    void Awake()
+    protected void Awake()
     {
         m_data = GetComponent<CellData>();
     }

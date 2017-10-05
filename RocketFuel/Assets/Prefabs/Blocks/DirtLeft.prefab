@@ -9,34 +9,34 @@ Prefab:
     m_Modifications: []
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
-  m_RootGameObject: {fileID: 1379264564251164}
+  m_RootGameObject: {fileID: 1713900283264966}
   m_IsPrefabParent: 1
---- !u!1 &1379264564251164
+--- !u!1 &1713900283264966
 GameObject:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   serializedVersion: 5
   m_Component:
-  - component: {fileID: 4047263069272372}
-  - component: {fileID: 212692470760114858}
-  - component: {fileID: 114464042212958084}
-  - component: {fileID: 50180143470636420}
-  - component: {fileID: 61372691775350616}
-  - component: {fileID: 114106032661893042}
+  - component: {fileID: 4621354113842128}
+  - component: {fileID: 212410700924093344}
+  - component: {fileID: 114972461942085646}
+  - component: {fileID: 50614834608180590}
+  - component: {fileID: 61729178345087432}
+  - component: {fileID: 114326615925721938}
   m_Layer: 0
-  m_Name: DirtUp
+  m_Name: DirtLeft
   m_TagString: Manip
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &4047263069272372
+--- !u!4 &4621354113842128
 Transform:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1379264564251164}
+  m_GameObject: {fileID: 1713900283264966}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
@@ -44,13 +44,13 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!50 &50180143470636420
+--- !u!50 &50614834608180590
 Rigidbody2D:
   serializedVersion: 4
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1379264564251164}
+  m_GameObject: {fileID: 1713900283264966}
   m_BodyType: 2
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
@@ -64,12 +64,12 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
---- !u!61 &61372691775350616
+--- !u!61 &61729178345087432
 BoxCollider2D:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1379264564251164}
+  m_GameObject: {fileID: 1713900283264966}
   m_Enabled: 1
   m_Density: 1
   m_Material: {fileID: 0}
@@ -89,12 +89,12 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 0.8, y: 0.8}
   m_EdgeRadius: 0
---- !u!114 &114106032661893042
+--- !u!114 &114326615925721938
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1379264564251164}
+  m_GameObject: {fileID: 1713900283264966}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 42312345d87df27468b18857967ee8fd, type: 3}
@@ -105,18 +105,18 @@ MonoBehaviour:
     X: 0
     Y: 0
   m_content: 0
---- !u!114 &114464042212958084
+--- !u!114 &114972461942085646
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1379264564251164}
+  m_GameObject: {fileID: 1713900283264966}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: deea7eee9cdd06a4d9ab8555ba97d5bc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_pullType: 0
+  m_pullType: 3
   m_particlePrefab: {fileID: 1569443109489146, guid: be6cb2db41410d74a8b9b603c3c6c027,
     type: 2}
   m_offset: 0.5
@@ -126,12 +126,12 @@ MonoBehaviour:
   m_maxAngle: 2
   m_smoothness: 50
   m_sfx: {fileID: 0}
---- !u!212 &212692470760114858
+--- !u!212 &212410700924093344
 SpriteRenderer:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1379264564251164}
+  m_GameObject: {fileID: 1713900283264966}
   m_Enabled: 1
   m_CastShadows: 0
   m_ReceiveShadows: 0
@@ -155,10 +155,10 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
+  m_SortingLayerID: 1265837429
+  m_SortingLayer: 1
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 27600396ce17bbc49a8d830b72735ade, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 7599ae29808476f4c8c2f3e0360cec89, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
