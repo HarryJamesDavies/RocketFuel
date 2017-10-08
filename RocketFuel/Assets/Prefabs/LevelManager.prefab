@@ -125,6 +125,8 @@ MonoBehaviour:
     Prefab: {fileID: 1547997320456684, guid: 6b2246b5e2ed9224884a2ead1676b679, type: 2}
   - Identifier: {r: 0, g: 1, b: 0, a: 0.39215687}
     Prefab: {fileID: 1069786870867444, guid: ff8aeed8f3663404e8cb100ee206ab53, type: 2}
+  - Identifier: {r: 1, g: 0.64137924, b: 0, a: 1}
+    Prefab: {fileID: 1344870960503788, guid: 2062dd99bcddcda4a8b7319b25c3047a, type: 2}
   m_sectionsGenerated: -1
 --- !u!114 &114969053911851446
 MonoBehaviour:

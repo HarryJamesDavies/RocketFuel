@@ -169,7 +169,7 @@ Camera:
   far clip plane: 1000
   field of view: 60
   orthographic: 1
-  orthographic size: 25
+  orthographic size: 17.5
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -215,6 +215,7 @@ MonoBehaviour:
     X: 1
     Y: 1
     Z: 0
+  m_yOffset: -10
 --- !u!1001 &339139811
 Prefab:
   m_ObjectHideFlags: 0
@@ -348,6 +349,10 @@ Prefab:
       propertyPath: m_RootOrder
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 1052749397353248, guid: a1e827a3475f042478a86c188ea02e6d, type: 2}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: a1e827a3475f042478a86c188ea02e6d, type: 2}
   m_IsPrefabParent: 0
@@ -394,6 +399,10 @@ Prefab:
       propertyPath: m_Name
       value: MainBackground (2)
       objectReference: {fileID: 0}
+    - target: {fileID: 1052749397353248, guid: a1e827a3475f042478a86c188ea02e6d, type: 2}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: a1e827a3475f042478a86c188ea02e6d, type: 2}
   m_IsPrefabParent: 0
@@ -439,6 +448,10 @@ Prefab:
     - target: {fileID: 1052749397353248, guid: a1e827a3475f042478a86c188ea02e6d, type: 2}
       propertyPath: m_Name
       value: MainBackground (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 1052749397353248, guid: a1e827a3475f042478a86c188ea02e6d, type: 2}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: a1e827a3475f042478a86c188ea02e6d, type: 2}
