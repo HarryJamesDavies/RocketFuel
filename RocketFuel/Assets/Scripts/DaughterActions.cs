@@ -9,19 +9,24 @@ public class DaughterActions : MonoBehaviour {
 
     public Vector3 jump;
     public float jumpForce = 2.0f;
+    public float moveForce = 0.3f;
     public float gravity = 10.0f;
     public bool isGrounded;
     public float speed = 200.0f;
-    public float m_minDistance = 1000.0f;
+    public float m_minDistance = 100.0f;
+    public float targetNextSelectPeriod = 0.5f;
 
     Rigidbody2D rb;
 
     public List<GameObject> m_allTargets = new List<GameObject>();
     public List<GameObject> m_inRangeTargets = new List<GameObject>();
+    public List<GameObject> m_childPulledTargets = new List<GameObject>();
 
     private Player player;
     private Vector3 moveDirection = Vector3.zero;
     private int indexCurrent;
+    private float targetNextSelectTime = 0.0f;
+   
 
     private Color selectColor = Color.cyan;  
 
@@ -46,36 +51,14 @@ public class DaughterActions : MonoBehaviour {
     // Update is called once per frame
     void Update()
     {
-        PlayerMovement();
-        TargetSelect();
+        CollectReorderPowerObjects();
         UsePowers();
-
-    }
-
-
-
-    private void PlayerMovement() {
-        if (player.GetAxis("Move Horizontal") != 0.0f)
+        if (Time.time > targetNextSelectTime)
         {
-            if (player.GetAxis("Move Horizontal") < 0.0f)
-            {
-                transform.position += Vector3.left * speed * Time.deltaTime;
-
-            } else if (player.GetAxis("Move Horizontal") > 0.0f)
-            {
-                transform.position += Vector3.right * speed * Time.deltaTime;
-            }
+            targetNextSelectTime += targetNextSelectPeriod;
+            TargetSelect();
         }
-
-        if (player.GetButtonDown("Jump"))
-        {
-            if (isGrounded == true)
-            {
-                rb.AddForce(new Vector2(0, jumpForce), ForceMode2D.Impulse);
-                isGrounded = false;
-            }
-        }
-        moveDirection.y -= gravity * Time.deltaTime;
+       
     }
 
     private void UsePowers()
@@ -109,15 +92,9 @@ public class DaughterActions : MonoBehaviour {
         return _index;
     }
 
-    void GetNext()
+    void CycleNext()
     {
         indexCurrent = LoopTargetIndex(++indexCurrent);
-        ChangeSelectedColor();
-    }
-
-    void GetPrev()
-    {
-        indexCurrent = LoopTargetIndex(--indexCurrent);
         ChangeSelectedColor();
     }
 
@@ -133,24 +110,12 @@ public class DaughterActions : MonoBehaviour {
     }
 
     GameObject TargetSelect()
-    {
+    {      
+        ClearColorOfSelected();
+        CycleNext();
+        GetCurrent();
         
-        CollectReorderPowerObjects();
-        
-        if (player.GetButtonDown("Target Lock Scroll Right"))
-        {
-            ClearColorOfSelected();
-            GetNext();
-            GetCurrent();
-            Debug.Log(string.Format("closest, indexCurrent and name of current index : {0} + {1} + {2}", m_inRangeTargets[0].name, indexCurrent, GetCurrent().name));
-        }
-        if (player.GetButtonDown("Target Lock Scroll Left"))
-        {
-            ClearColorOfSelected();
-            GetPrev();
-            GetCurrent();
-            Debug.Log(string.Format("closest, indexCurrent and name of current index : {0} + {1} + {2}", m_inRangeTargets[0].name, indexCurrent, GetCurrent().name));
-        }
+        Debug.Log(string.Format("closest, indexCurrent and name of current index : {0} + {1} + {2}", m_inRangeTargets[0].name, indexCurrent, GetCurrent().name));
         return null;
     }
 
@@ -167,11 +132,10 @@ public class DaughterActions : MonoBehaviour {
                 if (distance <= m_minDistance)
                 {
                     m_inRangeTargets.Add(target);
-
                 }
             }
             else
-            {
+            {        
                 continue;
             }
             
