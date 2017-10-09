@@ -53,8 +53,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: df68a693ce0b8d343998b5696812f8b3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_flowingLavaPrefab: {fileID: 1113362914925838, guid: 92995b82c65e9e04bbd6f5fec615ddd9,
+  m_creepingLavaPrefab: {fileID: 1547997320456684, guid: 6b2246b5e2ed9224884a2ead1676b679,
     type: 2}
+  m_realisticLavaPrefab: {fileID: 1069786870867444, guid: ff8aeed8f3663404e8cb100ee206ab53,
+    type: 2}
+  m_wait: 1
 --- !u!114 &114158374046454516
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -95,8 +98,6 @@ MonoBehaviour:
   - Texture: {fileID: 2800000, guid: ed47a16d9c4377a43a053c6cc5bbeef1, type: 3}
     Entrances: 000000000200000002000000
     Exits: 000000000200000002000000
-  m_lavaTemplate: {fileID: 1909572157859058, guid: 84ddb6adf0d5b194a9192f0a08d88684,
-    type: 2}
   m_defaultTemplate: {fileID: 1422402640623636, guid: 151fcca234867784f878a92668f83662,
     type: 2}
   m_cellTemplates:
@@ -104,24 +105,28 @@ MonoBehaviour:
     Prefab: {fileID: 1925127399543990, guid: ba36a76e7d803a24385d281f413d3f98, type: 2}
   - Identifier: {r: 0.5882353, g: 0.5882353, b: 0.5882353, a: 1}
     Prefab: {fileID: 1357773156143046, guid: 51253b1e09bdabb40abbc97ff452e8b2, type: 2}
-  - Identifier: {r: 1, g: 0.84705883, b: 0, a: 1}
-    Prefab: {fileID: 1227685008536416, guid: b80c1de59acbce643b96650056e00b5b, type: 2}
-  - Identifier: {r: 0.29803923, g: 1, b: 0, a: 1}
-    Prefab: {fileID: 1910551075342134, guid: f99ab814bd06cdc4499a0d3f87d74f94, type: 2}
-  - Identifier: {r: 1, g: 0, b: 0.8627451, a: 1}
-    Prefab: {fileID: 1189151759603092, guid: 7c49191c7cb5b2e418507790959e4c83, type: 2}
   - Identifier: {r: 1, g: 0, b: 0, a: 1}
-    Prefab: {fileID: 1311867955772038, guid: 17de005065b3e6541938203700d94c99, type: 2}
-  - Identifier: {r: 0, g: 0, b: 0.39215687, a: 1}
-    Prefab: {fileID: 1713900283264966, guid: f4f885fb9ed2d3e4bbe2f58022811241, type: 2}
-  - Identifier: {r: 0, g: 0.39215687, b: 0, a: 1}
-    Prefab: {fileID: 1214825149239250, guid: 71231ed609a12b64d8f71a87b66928a4, type: 2}
-  - Identifier: {r: 0, g: 1, b: 1, a: 1}
-    Prefab: {fileID: 1379264564251164, guid: b1250775079fab443b294ec764366131, type: 2}
+    Prefab: {fileID: 1190957563997566, guid: 50f84e4ab631c4840abcc564faeff50c, type: 2}
+  - Identifier: {r: 0, g: 1, b: 0, a: 1}
+    Prefab: {fileID: 1227685008536416, guid: b80c1de59acbce643b96650056e00b5b, type: 2}
+  - Identifier: {r: 0, g: 0, b: 1, a: 1}
+    Prefab: {fileID: 1189151759603092, guid: 7c49191c7cb5b2e418507790959e4c83, type: 2}
   - Identifier: {r: 1, g: 1, b: 0, a: 1}
-    Prefab: {fileID: 1244410904388086, guid: efe8c44439a80de48a8e1ce420754f1c, type: 2}
+    Prefab: {fileID: 1713900283264966, guid: f4f885fb9ed2d3e4bbe2f58022811241, type: 2}
+  - Identifier: {r: 0, g: 1, b: 1, a: 1}
+    Prefab: {fileID: 1214825149239250, guid: 71231ed609a12b64d8f71a87b66928a4, type: 2}
   - Identifier: {r: 1, g: 0, b: 1, a: 1}
+    Prefab: {fileID: 1379264564251164, guid: b1250775079fab443b294ec764366131, type: 2}
+  - Identifier: {r: 0.39215687, g: 0.39215687, b: 0, a: 1}
+    Prefab: {fileID: 1244410904388086, guid: efe8c44439a80de48a8e1ce420754f1c, type: 2}
+  - Identifier: {r: 0, g: 0.39215687, b: 0.39215687, a: 1}
     Prefab: {fileID: 1333846283123382, guid: a18674bbfebacb24b8a80734ad6d45b3, type: 2}
+  - Identifier: {r: 1, g: 0, b: 0, a: 0.39215687}
+    Prefab: {fileID: 1547997320456684, guid: 6b2246b5e2ed9224884a2ead1676b679, type: 2}
+  - Identifier: {r: 0, g: 1, b: 0, a: 0.39215687}
+    Prefab: {fileID: 1069786870867444, guid: ff8aeed8f3663404e8cb100ee206ab53, type: 2}
+  - Identifier: {r: 1, g: 0.64137924, b: 0, a: 1}
+    Prefab: {fileID: 1344870960503788, guid: 2062dd99bcddcda4a8b7319b25c3047a, type: 2}
   m_sectionsGenerated: -1
 --- !u!114 &114969053911851446
 MonoBehaviour:
