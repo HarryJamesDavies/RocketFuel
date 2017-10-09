@@ -10,6 +10,7 @@ TagManager:
   - Manip
   - Wall
   - Power
+  - TargetSelectAudio
   layers:
   - Default
   - TransparentFX

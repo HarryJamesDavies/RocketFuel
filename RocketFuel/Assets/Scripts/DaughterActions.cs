@@ -26,6 +26,7 @@ public class DaughterActions : MonoBehaviour {
     private Vector3 moveDirection = Vector3.zero;
     private int indexCurrent;
     private float targetNextSelectTime = 0.0f;
+    private GameObject targetSelectAudio;
    
 
     private Color selectColor = Color.cyan;  
@@ -40,9 +41,9 @@ public class DaughterActions : MonoBehaviour {
         rb = GetComponent<Rigidbody2D>();
         jump = new Vector3(0.0f, 1.0f, 0.0f);
         GetTargets();
+        targetSelectAudio = GameObject.FindGameObjectWithTag("TargetSelectAudio");
     }
-
-    void GetTargets()
+        void GetTargets()
     {
         m_allTargets.Clear();
         m_allTargets = GameObject.FindGameObjectsWithTag("Dirt").ToList<GameObject>();
@@ -56,6 +57,7 @@ public class DaughterActions : MonoBehaviour {
         if (Time.time > targetNextSelectTime)
         {
             targetNextSelectTime += targetNextSelectPeriod;
+            targetSelectAudio.GetComponent<AudioSource>().Play();
             TargetSelect();
         }
        
@@ -95,6 +97,7 @@ public class DaughterActions : MonoBehaviour {
     void CycleNext()
     {
         indexCurrent = LoopTargetIndex(++indexCurrent);
+        //TODO play noise on game object
         ChangeSelectedColor();
     }
 
