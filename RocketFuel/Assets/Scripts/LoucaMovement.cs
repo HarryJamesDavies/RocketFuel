@@ -76,7 +76,6 @@ public class LoucaMovement : MonoBehaviour
                 RaycastHit2D t_hit = Physics2D.Raycast(transform.position, Vector2.down, m_rayDist, m_layerMask);
                 if (t_hit)
                 {
-                    print(t_hit.collider.tag);
                     if (t_hit.collider.tag == "Ground" || t_hit.collider.tag == "Manip")
                     {
                         m_jumpCount = m_maxJumps;

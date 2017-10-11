@@ -98,6 +98,15 @@ MonoBehaviour:
   - Texture: {fileID: 2800000, guid: ed47a16d9c4377a43a053c6cc5bbeef1, type: 3}
     Entrances: 000000000200000002000000
     Exits: 000000000200000002000000
+  - Texture: {fileID: 2800000, guid: 511f02dec6f32634da81f8dbc1b90160, type: 3}
+    Entrances: 000000000100000002000000
+    Exits: 000000000100000002000000
+  - Texture: {fileID: 2800000, guid: 4af517d80f3159f4f8493929481d20f2, type: 3}
+    Entrances: 000000000100000002000000
+    Exits: 000000000100000002000000
+  - Texture: {fileID: 2800000, guid: b3201fd2d82c4cc45a95128071a0b73b, type: 3}
+    Entrances: 000000000100000002000000
+    Exits: 000000000100000002000000
   m_defaultTemplate: {fileID: 1422402640623636, guid: 151fcca234867784f878a92668f83662,
     type: 2}
   m_cellTemplates:
