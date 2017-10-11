@@ -21,18 +21,24 @@ public class TerrainManipulator : MonoBehaviour
     public float m_minimumDistance = 100.0f;
     public Color m_highlightColour = Color.green;
 
+    public float m_targetTime = 0.8f;
+    private float m_targetTimer;
+
     private int m_currentIndex = 0;
     private GameObject m_prevTarget = null;
     private List<int> m_reorderedIndicies = new List<int>();
     private List<GameObject> m_allTargets = new List<GameObject>();
 
+    private GameObject targetSelectAudio;
     private Player m_player;
 
     private void Start()
     {
         GlobalEventBoard.Instance.SubscribeToEvent(Events.Event.LEV_TransitionSection, GetAllTargets);
-
+        targetSelectAudio = GameObject.FindGameObjectWithTag("TargetSelectAudio");
         m_player = ReInput.players.GetPlayer(0);
+
+        m_targetTimer = 0.0f;
 
         GetAllTargets();
     }
@@ -50,18 +56,27 @@ public class TerrainManipulator : MonoBehaviour
 
     private void Update()
     {
+        
+
         GetInRangeTargets();
 
-        if (m_reorderedIndicies.Count != 0)
+        m_targetTimer += Time.deltaTime;
+        if (m_targetTimer > m_targetTime)
         {
-            ScrollTargets();
-            //HighlightAllInRange();
-            HighlightCurrent();
-            ManipulateCurrentTarget();
-        }
-        else
-        {
-            m_currentIndex = 0;
+
+            if (m_reorderedIndicies.Count != 0)
+            {
+                //TargetSelect() replaced with new method
+                CycleNext();
+                //Highlight all in range
+                HighlightCurrent();
+                ManipulateCurrentTarget();
+            }
+            else
+            {
+                m_currentIndex = 0;
+            }
+            m_targetTimer = 0.0f;
         }
     }
 
@@ -69,20 +84,25 @@ public class TerrainManipulator : MonoBehaviour
     {
         List<TargetData> inRangeTargets = new List<TargetData>();
 
-        for (int iter = 0; iter <= m_allTargets.Count - 1; iter++)
+        foreach (GameObject target in m_allTargets)
         {
-            float distance = Vector2.Distance(transform.position, m_allTargets[iter].transform.position);
+            for (int iter = 0; iter <= m_allTargets.Count - 1; iter++)
+            {
+                if (!target.GetComponent<PullableBlock>().HasClone())
+                {
+                    float distance = Vector2.Distance(transform.position, m_allTargets[iter].transform.position);
 
-            if (distance <= m_minimumDistance)
-            {
-                inRangeTargets.Add(new TargetData(m_allTargets[iter], iter));
-            }
-            else
-            {
-                continue;
+                    if (distance <= m_minimumDistance)
+                    {
+                        inRangeTargets.Add(new TargetData(m_allTargets[iter], iter));
+                    }
+                    else
+                    {
+                    continue;
+                    }
+                }
             }
         }
-
         inRangeTargets = inRangeTargets.OrderBy(x => Vector2.Distance(transform.position, x.Target.transform.position)).ToList();
 
         m_reorderedIndicies.Clear();
@@ -92,17 +112,12 @@ public class TerrainManipulator : MonoBehaviour
         }
     }
 
-    private void ScrollTargets()
+    void CycleNext()
     {
-        if (m_player.GetButtonDown("Target Lock Scroll Right"))
-        {
-            GetNext();
-        }
-        else if (m_player.GetButtonDown("Target Lock Scroll Left"))
-        {
-            GetPrev();
-        }
+        m_currentIndex = LoopTargetIndex(++m_currentIndex);
+        targetSelectAudio.GetComponent<AudioSource>().Play();
     }
+   
 
     private int LoopTargetIndex(int _index)
     {
@@ -123,15 +138,7 @@ public class TerrainManipulator : MonoBehaviour
         return _index;
     }
 
-    private void GetNext()
-    {
-        m_currentIndex = LoopTargetIndex(++m_currentIndex);
-    }
 
-    private void GetPrev()
-    {
-        m_currentIndex = LoopTargetIndex(--m_currentIndex);
-    }
 
     private void HighlightCurrent()
     {
@@ -174,3 +181,23 @@ public class TerrainManipulator : MonoBehaviour
         }
     }
 }
+//private void ScrollTargets()
+//{
+//    if (m_player.GetButtonDown("Target Lock Scroll Right"))
+//    {
+//        GetNext();
+//    }
+//    else if (m_player.GetButtonDown("Target Lock Scroll Left"))
+//    {
+//        GetPrev();
+//    }
+//}
+//private void GetNext()
+//{
+//    m_currentIndex = LoopTargetIndex(++m_currentIndex);
+//}
+
+//private void GetPrev()
+//{
+//    m_currentIndex = LoopTargetIndex(--m_currentIndex);
+//}

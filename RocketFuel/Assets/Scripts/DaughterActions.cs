@@ -5,7 +5,8 @@ using UnityEngine;
 using Rewired;
 using System;
 
-public class DaughterActions : MonoBehaviour {
+public class DaughterActions : MonoBehaviour
+{
 
     public Vector3 jump;
     public float jumpForce = 2.0f;
@@ -27,9 +28,9 @@ public class DaughterActions : MonoBehaviour {
     private int indexCurrent;
     private float targetNextSelectTime = 0.0f;
     private GameObject targetSelectAudio;
-   
 
-    private Color selectColor = Color.cyan;  
+
+    private Color selectColor = Color.cyan;
 
     private void Awake()
     {
@@ -38,12 +39,12 @@ public class DaughterActions : MonoBehaviour {
     // Use this for initialization
     void Start()
     {
-        rb = GetComponent<Rigidbody2D>();
-        jump = new Vector3(0.0f, 1.0f, 0.0f);
+        //rb = GetComponent<Rigidbody2D>();
+       // jump = new Vector3(0.0f, 1.0f, 0.0f);
         GetTargets();
         targetSelectAudio = GameObject.FindGameObjectWithTag("TargetSelectAudio");
     }
-        void GetTargets()
+    void GetTargets()
     {
         m_allTargets.Clear();
         m_allTargets = GameObject.FindGameObjectsWithTag("Dirt").ToList<GameObject>();
@@ -57,10 +58,10 @@ public class DaughterActions : MonoBehaviour {
         if (Time.time > targetNextSelectTime)
         {
             targetNextSelectTime += targetNextSelectPeriod;
-            targetSelectAudio.GetComponent<AudioSource>().Play();
+            //targetSelectAudio.GetComponent<AudioSource>().Play();
             TargetSelect();
         }
-       
+
     }
 
     private void UsePowers()
@@ -69,8 +70,8 @@ public class DaughterActions : MonoBehaviour {
         {
             if (player.GetButtonDown("Powers"))
             {
-               GetCurrent().GetComponent<PullableBlock>().DelayedSpawn();
-               ClearColorOfSelected(GetCurrent());
+                GetCurrent().GetComponent<PullableBlock>().DelayedSpawn();
+                ClearColorOfSelected(GetCurrent());
             }
         }
     }
@@ -97,7 +98,6 @@ public class DaughterActions : MonoBehaviour {
     void CycleNext()
     {
         indexCurrent = LoopTargetIndex(++indexCurrent);
-        //TODO play noise on game object
         ChangeSelectedColor();
     }
 
@@ -109,15 +109,16 @@ public class DaughterActions : MonoBehaviour {
             {
                 return m_inRangeTargets[indexCurrent];
             }
-        }return null;
+        }
+        return null;
     }
 
     GameObject TargetSelect()
-    {      
+    {
         ClearColorOfSelected();
         CycleNext();
         GetCurrent();
-        
+
         Debug.Log(string.Format("closest, indexCurrent and name of current index : {0} + {1} + {2}", m_inRangeTargets[0].name, indexCurrent, GetCurrent().name));
         return null;
     }
@@ -125,7 +126,7 @@ public class DaughterActions : MonoBehaviour {
     void CollectReorderPowerObjects()
     {
         m_inRangeTargets.Clear();
- 
+
         foreach (GameObject target in m_allTargets)
         {
             if (!target.GetComponent<PullableBlock>().HasClone())
@@ -138,14 +139,15 @@ public class DaughterActions : MonoBehaviour {
                 }
             }
             else
-            {        
+            {
                 continue;
             }
-            
+
         }
 
         m_inRangeTargets = m_inRangeTargets.OrderBy(x => Vector2.Distance(transform.position, x.transform.position)).ToList();
     }
+
     void ClearColorOfSelected(GameObject _object)
     {
         _object.GetComponent<SpriteRenderer>().color = Color.white;
