@@ -56,21 +56,19 @@ public class TerrainManipulator : MonoBehaviour
 
     private void Update()
     {
-        
-
         GetInRangeTargets();
+
+        ManipulateCurrentTarget();
 
         m_targetTimer += Time.deltaTime;
         if (m_targetTimer > m_targetTime)
         {
-
             if (m_reorderedIndicies.Count != 0)
             {
                 //TargetSelect() replaced with new method
                 CycleNext();
                 //Highlight all in range
                 HighlightCurrent();
-                ManipulateCurrentTarget();
             }
             else
             {
@@ -98,7 +96,7 @@ public class TerrainManipulator : MonoBehaviour
                     }
                     else
                     {
-                    continue;
+                        continue;
                     }
                 }
             }
@@ -112,12 +110,11 @@ public class TerrainManipulator : MonoBehaviour
         }
     }
 
-    void CycleNext()
+    private void CycleNext()
     {
         m_currentIndex = LoopTargetIndex(++m_currentIndex);
         targetSelectAudio.GetComponent<AudioSource>().Play();
     }
-   
 
     private int LoopTargetIndex(int _index)
     {
@@ -137,8 +134,6 @@ public class TerrainManipulator : MonoBehaviour
         }
         return _index;
     }
-
-
 
     private void HighlightCurrent()
     {
@@ -181,6 +176,7 @@ public class TerrainManipulator : MonoBehaviour
         }
     }
 }
+
 //private void ScrollTargets()
 //{
 //    if (m_player.GetButtonDown("Target Lock Scroll Right"))

@@ -134,6 +134,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_minimumDistance: 7
   m_highlightColour: {r: 0, g: 1, b: 0, a: 1}
+  m_targetTime: 0.8
 --- !u!114 &114723079808119282
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -146,10 +147,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_moveSpeed: 60
-  m_jumpHeight: 30
+  m_jumpHeight: 40
   m_fallMultiplier: 1.5
   m_rayDist: 0.5
-  m_maxJumps: 2
+  m_maxJumps: 1
 --- !u!114 &114816739903091384
 MonoBehaviour:
   m_ObjectHideFlags: 1
