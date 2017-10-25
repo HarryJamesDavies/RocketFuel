@@ -13,6 +13,7 @@ public class LoucaMovement : MonoBehaviour
     public float m_jumpHeight;
     public float m_fallMultiplier;
     public float m_rayDist;
+    public float m_rayDistHor;
     private float m_horMovement;
 
     private Vector2 m_velocity;
@@ -44,13 +45,28 @@ public class LoucaMovement : MonoBehaviour
         if (m_player.GetButtonDown("Jump"))
         {
             RaycastHit2D t_hit = Physics2D.Raycast(transform.position, Vector2.down, m_rayDist, m_layerMask);
+            RaycastHit2D t_hitLeft = Physics2D.Raycast(transform.position, Vector2.left, m_rayDistHor, m_layerMask);
+            RaycastHit2D t_hitRight = Physics2D.Raycast(transform.position, Vector2.right, m_rayDistHor, m_layerMask);
             if (t_hit)
             {
-                print(t_hit.collider.tag);
                 if (t_hit.collider.tag == "Ground" || t_hit.collider.tag == "Manip")
                 {
                     m_jumping = true;
                     m_jumpCount--;
+                }
+            }
+            if (t_hitLeft)
+            {
+                if (t_hitLeft.collider.tag == "Ground" || t_hitLeft.collider.tag == "Manip")
+                {
+                    m_jumping = true;
+                }
+            }
+            if (t_hitRight)
+            {
+                if (t_hitRight.collider.tag == "Ground" || t_hitRight.collider.tag == "Manip")
+                {
+                    m_jumping = true;
                 }
             }
             if (!t_hit && m_jumpCount > 0)
